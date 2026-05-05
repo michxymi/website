@@ -1,17 +1,34 @@
 {
-  "name": "website",
-  "type": "module",
-  "version": "0.0.1",
-  "engines": {
-    "node": ">=22.12.0"
+  "dependencies": {
+    "astro": "^6.2.2"
   },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.14",
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "lefthook": "^2.1.6",
+    "ultracite": "7.6.3"
+  },
+  "name": "website",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "prepare": "lefthook install"
   },
-  "dependencies": {
-    "astro": "^6.2.2"
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
