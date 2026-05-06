@@ -1,0 +1,15 @@
+---
+interface Props {
+  description?: string;
+  title: string;
+}
+
+const { title, description } = Astro.props as Props;
+---
+
+<div class="mb-8">
+  <h1 class="mb-2 font-display text-2xl md:text-3xl">{title}</h1>
+  {description && (
+        <p class="max-w-2xl text-muted-foreground">{description}</p>
+      )}
+</div>

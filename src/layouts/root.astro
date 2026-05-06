@@ -1,0 +1,239 @@
+---
+import ActivityHeartbeat from "@tabler/icons/outline/activity-heartbeat.svg";
+import BookOpenIcon from "@tabler/icons/outline/book.svg";
+import GithubIcon from "@tabler/icons/outline/brand-github.svg";
+import LinkedInIcon from "@tabler/icons/outline/brand-linkedin.svg";
+import XIcon from "@tabler/icons/outline/brand-x.svg";
+import DownloadIcon from "@tabler/icons/outline/download.svg";
+import FolderIcon from "@tabler/icons/outline/folder.svg";
+import MailIcon from "@tabler/icons/outline/mail.svg";
+import UserIcon from "@tabler/icons/outline/user.svg";
+import Footer from "@/components/footer.astro";
+import ThemeSwitcher from "@/components/theme-switcher.astro";
+import "@/styles/starwind.css";
+import { Font } from "astro:assets";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/starwind/avatar";
+import Separator from "@/components/starwind/separator";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "@/components/starwind/sidebar";
+
+const navMain = [
+  {
+    title: "About",
+    url: "/",
+    icon: UserIcon,
+  },
+  {
+    title: "Now",
+    url: "/now",
+    icon: ActivityHeartbeat,
+  },
+  {
+    title: "Projects",
+    url: "/projects",
+    icon: FolderIcon,
+  },
+  {
+    title: "Blog",
+    url: "/blog",
+    icon: BookOpenIcon,
+  },
+  {
+    title: "Contact",
+    url: "/contact",
+    icon: MailIcon,
+  },
+];
+
+const social = [
+  { name: "Github", url: "https://github.com/michxymi", icon: GithubIcon },
+  { name: "X", url: "https://x.com/michxymi", icon: XIcon },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/mxymitoulias/",
+    icon: LinkedInIcon,
+  },
+];
+
+const trailingSlashPattern = /\/$/;
+const normalizePath = (path: string) =>
+  path.replace(trailingSlashPattern, "") || "/";
+const currentPath = normalizePath(Astro.url.pathname);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width">
+    <meta name="generator" content={Astro.generator}>
+    <Font
+      cssVariable="--font-inter"
+      preload={[{ weight: 400, style: "normal" }]}
+    />
+    <Font cssVariable="--font-jetbrains-mono" />
+
+    <title>Astro</title>
+    <script is:inline>
+      function prefersDarkTheme() {
+        return (
+          window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false
+        );
+      }
+
+      function initTheme() {
+        const colorTheme = localStorage.getItem("colorTheme");
+
+        if (colorTheme === "dark") {
+          document.documentElement.classList.add("dark");
+          return;
+        }
+
+        if (colorTheme === "light") {
+          document.documentElement.classList.remove("dark");
+          return;
+        }
+
+        if (colorTheme === "system") {
+          document.documentElement.classList.toggle("dark", prefersDarkTheme());
+          return;
+        }
+
+        if (prefersDarkTheme()) {
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("colorTheme", "dark");
+          return;
+        }
+
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("colorTheme", "light");
+      }
+
+      // runs on initial page load
+      initTheme();
+
+      // runs on view transitions navigation
+      document.addEventListener("astro:after-swap", initTheme);
+    </script>
+  </head>
+  <body class="antialiased">
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <div
+                class="flex items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
+              >
+                <Avatar
+                  class="size-12 shrink-0 rounded-full group-data-[collapsible=icon]:size-8"
+                >
+                  <AvatarImage src="/avatar.webp" alt="michxymi" />
+                  <AvatarFallback class="rounded-full">MX</AvatarFallback>
+                </Avatar>
+                <div
+                  class="grid flex-1 gap-1 leading-tight group-data-[collapsible=icon]:hidden"
+                >
+                  <span class="truncate font-bold">Michael Xymitoulias</span>
+                  <span class="text-sidebar-foreground/70 truncate text-xs"
+                    >Technical Software Manager</span
+                  >
+                </div>
+              </div>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {navMain.map((item) => (
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      href={item.url}
+                      isActive={currentPath === normalizePath(item.url)}
+                      tooltip={item.title}
+                    >
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupLabel>Social</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {social.map((social) => (
+                <SidebarMenuItem>
+                  <SidebarMenuButton href={social.url} tooltip={social.name}>
+                    <social.icon />
+                    <span>{social.name}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                download
+                tooltip="Download CV"
+                href="/Michael_Xymitoulias_CV.pdf"
+              >
+                <DownloadIcon />
+                <span> Download CV </span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+
+      <main class="bg-background flex flex-1 flex-col">
+        <header class="flex h-12 shrink-0 items-center justify-end gap-2 px-4">
+          <div class="inline-flex items-center gap-3">
+            <SidebarTrigger
+              size="sm"
+              class="text-muted-foreground hover:bg-transparent hover:text-foreground [&_svg]:size-4"
+            />
+            <Separator orientation="vertical" class="h-4" />
+            <ThemeSwitcher />
+          </div>
+        </header>
+
+        <div class="flex flex-1 flex-col gap-4 p-4 pt-0 md:px-8 lg:px-12">
+          <div class="mx-auto flex w-full max-w-4xl flex-1 flex-col">
+            <slot />
+          </div>
+          <Footer />
+        </div>
+      </main>
+    </SidebarProvider>
+  </body>
+</html>
