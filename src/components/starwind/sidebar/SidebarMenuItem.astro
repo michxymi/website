@@ -5,7 +5,7 @@ import { tv } from "tailwind-variants";
 type Props = HTMLAttributes<"li">;
 
 export const sidebarMenuItem = tv({
-  base: "group/menu-item relative",
+  base: "group/menu-item relative group-data-[collapsible=icon]:grid group-data-[collapsible=icon]:place-items-center",
 });
 
 const { class: className, ...rest } = Astro.props;
