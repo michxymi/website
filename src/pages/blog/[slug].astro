@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import PageHeader from "@/components/page-header.astro";
+import { Badge } from "@/components/starwind/badge";
+import Prose from "@/components/starwind/prose";
+import RootLayout from "@/layouts/root.astro";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const wordsPerMinute = 200 as const;
+const whitespacePattern = /\s+/;
+
+const getReadingTime = (content = "") =>
+  Math.max(
+    1,
+    Math.ceil(
+      content.trim().split(whitespacePattern).filter(Boolean).length /
+        wordsPerMinute
+    )
+  );
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props as Props;
+const { Content } = await render(post);
+const { data } = post;
+const readingTime = getReadingTime(post.body);
+---
+
+<RootLayout>
+  <article>
+    <a
+      class="mb-6 inline-flex items-center gap-1 text-muted-foreground text-sm transition-colors hover:text-primary"
+      href="/blog"
+    >
+      &larr; Back to blog
+    </a>
+
+    <header class="mb-8">
+      <PageHeader title={data.title} />
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-3 text-muted-foreground text-sm">
+          <time class="font-mono" datetime={data.publishedAt.toISOString()}>
+            {data.publishedAt.toLocaleDateString("en-GB", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            })}
+          </time>
+          <span class="font-display">{readingTime} min read</span>
+        </div>
+        {data.tags.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                            {data.tags.map((tag) => (
+                                <Badge
+                                    class="font-mono text-xs"
+                                    variant="secondary"
+                                >
+                                    {tag}
+                                </Badge>
+                            ))}
+                        </div>
+                    )}
+      </div>
+    </header>
+
+    <Prose class="max-w-none"> <Content /> </Prose>
+  </article>
+</RootLayout>
