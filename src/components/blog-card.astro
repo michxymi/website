@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Badge } from "@/components/starwind/badge";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props as Props;
+const { data } = post;
+---
+
+<a
+  class="group -mx-2 block rounded px-2 py-4 transition-colors hover:bg-muted/50"
+  href={`/blog/${post.id}`}
+>
+  <div class="mb-1 flex items-center gap-2 text-muted-foreground text-xs">
+    <time class="font-mono" datetime={data.publishedAt.toISOString()}>
+      {data.publishedAt.toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })}
+    </time>
+  </div>
+  <h3
+    class="font-medium text-base text-foreground leading-snug transition-colors group-hover:text-primary"
+  >
+    {data.title}
+  </h3>
+  <p class="mt-1 line-clamp-2 text-muted-foreground text-sm">
+    {data.description}
+  </p>
+  {data.tags.length > 0 && (
+    <div class="mt-2 flex flex-wrap gap-2">
+      {data.tags.map((tag) => (
+        <Badge class="font-mono text-xs" variant="secondary">
+          {tag}
+        </Badge>
+      ))}
+    </div>
+  )}
+</a>

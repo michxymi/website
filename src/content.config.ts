@@ -10,6 +10,20 @@ const pages = defineCollection({
   }),
 });
 
+const posts = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
+  schema: z.object({
+    title: z.string().min(1).max(100),
+    description: z.string().min(1).max(200),
+    publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+    featured: z.boolean().default(false),
+    tags: z.array(z.string()).default([]),
+    coverImage: z.string().optional(),
+  }),
+});
+
 const experiences = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/experiences" }),
   schema: z.object({
@@ -26,4 +40,4 @@ const experiences = defineCollection({
   }),
 });
 
-export const collections = { experiences, pages };
+export const collections = { experiences, pages, posts };
