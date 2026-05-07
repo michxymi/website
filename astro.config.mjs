@@ -18,8 +18,8 @@ export default defineConfig({
     },
     {
       provider: fontProviders.fontsource(),
-      name: "Inter",
-      cssVariable: "--font-inter",
+      name: "IBM Plex Sans",
+      cssVariable: "--font-ibm-plex-sans",
       weights: [400, 500, 600],
       styles: ["normal"],
       fallbacks: ["sans-serif"],
