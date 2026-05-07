@@ -1,0 +1,215 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import BriefcaseIcon from "@tabler/icons/outline/briefcase.svg";
+import ChevronsDownIcon from "@tabler/icons/outline/chevrons-down.svg";
+import CodeIcon from "@tabler/icons/outline/code.svg";
+import CompassIcon from "@tabler/icons/outline/compass.svg";
+import InfinityIcon from "@tabler/icons/outline/infinity.svg";
+import SchoolIcon from "@tabler/icons/outline/school.svg";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import Prose from "@/components/starwind/prose";
+
+type ExperienceEntry = CollectionEntry<"experiences">;
+
+interface ExperiencePosition {
+  Content: AstroComponentFactory;
+  data: ExperienceEntry["data"];
+  period: {
+    end?: string;
+    start: string;
+  };
+}
+
+interface ExperienceGroup {
+  companyLogo?: string;
+  companyName: string;
+  isCurrentEmployer: boolean;
+  positions: ExperiencePosition[];
+}
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const experiences = await getCollection("experiences");
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  year: "numeric",
+});
+
+const iconMap = {
+  business: BriefcaseIcon,
+  code: CodeIcon,
+  design: CompassIcon,
+  education: SchoolIcon,
+} satisfies Record<ExperienceEntry["data"]["icon"], typeof BriefcaseIcon>;
+
+const positions = await Promise.all(
+  [...experiences]
+    .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime())
+    .map(async (entry) => {
+      const { Content } = await render(entry);
+
+      return {
+        Content,
+        data: entry.data,
+        period: {
+          start: dateFormatter.format(entry.data.startDate),
+          end: entry.data.endDate
+            ? dateFormatter.format(entry.data.endDate)
+            : undefined,
+        },
+      };
+    })
+);
+
+const experienceGroups = new Map<string, ExperienceGroup>();
+
+for (const position of positions) {
+  const { companyId, companyLogo, companyName, isCurrentEmployer } =
+    position.data;
+  const group = experienceGroups.get(companyId);
+
+  if (group) {
+    group.isCurrentEmployer ||= isCurrentEmployer;
+    group.positions.push(position);
+  } else {
+    experienceGroups.set(companyId, {
+      companyLogo,
+      companyName,
+      isCurrentEmployer,
+      positions: [position],
+    });
+  }
+}
+
+const groupedExperiences = Array.from(experienceGroups.values());
+---
+
+<div class:list={["bg-background px-4", className]} data-slot="work-experience">
+  {groupedExperiences.map((experience) => (
+            <div class="space-y-4 py-4" data-slot="work-experience-item">
+                <div class="not-prose flex items-center gap-3">
+                    <div
+                        aria-hidden
+                        class="flex size-6 shrink-0 items-center justify-center"
+                    >
+                        {experience.companyLogo ? (
+                            <img
+                                alt={`${experience.companyName} logo`}
+                                class="size-6 object-contain dark:invert"
+                                height="24"
+                                src={experience.companyLogo}
+                                width="24"
+                            />
+                        ) : (
+                            <span class="flex size-2 rounded-full bg-muted-foreground/40" />
+                        )}
+                    </div>
+
+                    <h3 class="font-medium text-foreground text-lg leading-snug">
+                        {experience.companyName}
+                    </h3>
+
+                    {experience.isCurrentEmployer && (
+                        <span class="relative flex items-center justify-center">
+                            <span class="absolute inline-flex size-3 animate-ping rounded-full bg-info opacity-50" />
+                            <span class="relative inline-flex size-2 rounded-full bg-info" />
+                            <span class="sr-only">Current Employer</span>
+                        </span>
+                    )}
+                </div>
+
+                <div class="relative space-y-4 before:absolute before:left-3 before:h-full before:w-px before:bg-border">
+                    {experience.positions.map((position) => {
+                        const ExperienceIcon = iconMap[position.data.icon];
+                        const Content = position.Content;
+
+                        return (
+                            <details
+                                class="group/experience relative last:before:absolute last:before:h-full last:before:w-4 last:before:bg-background"
+                                data-slot="work-experience-position"
+                                open={position.data.isExpanded}
+                            >
+                                <summary
+                                    class:list={[
+                                        "not-prose block w-full cursor-pointer select-none list-none text-left [&::-webkit-details-marker]:hidden",
+                                        "before:-top-1 before:-right-1 before:-bottom-1.5 relative before:absolute before:left-7 before:rounded-lg hover:before:bg-muted/50",
+                                    ]}
+                                >
+                                    <div class="relative z-1 mb-1 flex items-center gap-3">
+                                        <div
+                                            aria-hidden
+                                            class="flex size-6 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground"
+                                        >
+                                            <ExperienceIcon class="size-4" />
+                                        </div>
+
+                                        <h4 class="flex-1 text-balance font-medium text-base text-foreground">
+                                            {position.data.title}
+                                        </h4>
+
+                                        <ChevronsDownIcon
+                                            aria-hidden
+                                            class="size-4 shrink-0 text-muted-foreground transition-transform group-open/experience:rotate-180"
+                                        />
+                                    </div>
+
+                                    <div class="relative z-1 flex items-center gap-2 pl-9 font-mono text-muted-foreground text-xs">
+                                        {position.data.employmentType && (
+                                            <>
+                                                <dl>
+                                                    <dt class="sr-only">
+                                                        Employment Type
+                                                    </dt>
+                                                    <dd>
+                                                        {
+                                                            position.data
+                                                                .employmentType
+                                                        }
+                                                    </dd>
+                                                </dl>
+
+                                                <span
+                                                    aria-hidden
+                                                    class="h-4 w-px bg-border"
+                                                />
+                                            </>
+                                        )}
+
+                                        <dl>
+                                            <dt class="sr-only">
+                                                Employment Period
+                                            </dt>
+                                            <dd class="flex items-center gap-1">
+                                                {position.period.start}
+                                                {" \u2013 "}
+                                                {position.period.end ?? (
+                                                    <>
+                                                        <span class="sr-only">
+                                                            Present
+                                                        </span>
+                                                        <InfinityIcon
+                                                            aria-hidden
+                                                            class="size-4"
+                                                        />
+                                                    </>
+                                                )}
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </summary>
+
+                                <Prose class="pt-2 pl-9 text-sm leading-6">
+                                    <Content />
+                                </Prose>
+                            </details>
+                        );
+                    })}
+                </div>
+            </div>
+        ))}
+</div>
