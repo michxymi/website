@@ -36,21 +36,24 @@ const skillCategories = [
 
 <div class="grid gap-4 sm:grid-cols-2">
   {skillCategories.map((category) => (
-        <Card class="bg-transparent py-4">
-          <CardHeader class="pb-2">
-            <CardTitle class="font-display text-muted-foreground text-sm">
-              {category.title}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div class="flex flex-wrap gap-2">
-              {category.skills.map((skill) => (
-                <Badge class="font-mono" variant="secondary">
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+            <Card class="bg-transparent py-4">
+                <CardHeader class="pb-2">
+                    <CardTitle class="font-medium font-mono text-muted-foreground text-xs uppercase">
+                        {category.title}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div class="flex flex-wrap gap-2">
+                        {category.skills.map((skill) => (
+                            <Badge
+                                class="font-mono text-xs"
+                                variant="secondary"
+                            >
+                                {skill}
+                            </Badge>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
+        ))}
 </div>
