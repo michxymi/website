@@ -32,10 +32,10 @@ interface Props {
   class?: string;
 }
 
-const { class: className } = Astro.props;
+const { class: className } = Astro.props as Props;
 const experiences = await getCollection("experiences");
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
+const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   month: "long",
   year: "numeric",
 });
