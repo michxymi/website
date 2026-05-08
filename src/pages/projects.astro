@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import PageHeader from "@/components/page-header.astro";
+import ProjectCard from "@/components/project-card.astro";
+import RootLayout from "@/layouts/root.astro";
+
+const projects = await getCollection("projects")
+---
+
+<RootLayout>
+  <PageHeader
+    description="Things I built that didn't immediately catch fire."
+    title="Projects"
+  />
+
+  <section>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </section>
+</RootLayout>

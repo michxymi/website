@@ -1,0 +1,89 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import GithubIcon from "@tabler/icons/outline/brand-github.svg";
+import ExternalLinkIcon from "@tabler/icons/outline/external-link.svg";
+import PageHeader from "@/components/page-header.astro";
+import { Badge } from "@/components/starwind/badge";
+import { Button } from "@/components/starwind/button";
+import Prose from "@/components/starwind/prose";
+import RootLayout from "@/layouts/root.astro";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props as Props;
+const { Content } = await render(project);
+const { data } = project;
+---
+
+<RootLayout>
+  <article>
+    <a
+      class="mb-6 inline-flex items-center gap-1 text-muted-foreground text-sm transition-colors hover:text-primary"
+      href="/projects"
+    >
+      &larr; Back to projects
+    </a>
+
+    <header class="mb-8">
+      <PageHeader title={data.title} description={data.description} />
+
+      <div class="flex flex-col gap-4">
+        {data.technologies.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {data.technologies.map((technology) => (
+              <Badge class="font-mono text-xs" variant="secondary">
+                {technology}
+              </Badge>
+            ))}
+          </div>
+        )}
+
+        {(data.repoUrl || data.liveUrl) && (
+          <div class="flex flex-wrap justify-end gap-3 text-sm">
+            {data.repoUrl && (
+              <Button
+                class="font-mono text-xs"
+                href={data.repoUrl}
+                rel="noreferrer"
+                size="sm"
+                target="_blank"
+                variant="outline"
+              >
+                <GithubIcon class="size-4" />
+                View Code
+              </Button>
+            )}
+{data.liveUrl && (
+              <Button
+                class="font-mono text-xs"
+                href={data.liveUrl}
+                rel="noreferrer"
+                size="sm"
+                target="_blank"
+                variant="outline"
+              >
+                <ExternalLinkIcon class="size-4" />
+                Live Site
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <Prose class="max-w-none"> <Content /> </Prose>
+  </article>
+</RootLayout>
+d

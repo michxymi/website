@@ -1,0 +1,96 @@
+---
+import type { CollectionEntry } from "astro:content";
+import GithubIcon from "@tabler/icons/outline/brand-github.svg";
+import ExternalLinkIcon from "@tabler/icons/outline/external-link.svg";
+import { Badge } from "@/components/starwind/badge";
+import { Button } from "@/components/starwind/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/starwind/card";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props as Props;
+const { data } = project;
+const visibleTechnologies = data.technologies.slice(0, 4);
+const hiddenTechnologies =
+  data.technologies.length - visibleTechnologies.length;
+---
+
+<article class="group h-full">
+  <Card size="sm" class="relative h-full transition-colors hover:bg-muted/30">
+    <a
+      aria-label={`Open ${data.title}`}
+      class="absolute inset-0 z-10 rounded-xl focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-outline/50"
+      href={`/projects/${project.id}`}
+    >
+      <span class="sr-only">Open {data.title}</span>
+    </a>
+
+    <CardHeader>
+      <CardTitle
+        class="font-display text-lg transition-colors group-hover:text-primary"
+      >
+        {data.title}
+      </CardTitle>
+      <CardDescription class="line-clamp-2">
+        {data.description}
+      </CardDescription>
+    </CardHeader>
+
+    {visibleTechnologies.length > 0 && (
+      <CardContent>
+        <div class="flex flex-wrap gap-1">
+          {visibleTechnologies.map((technology) => (
+            <Badge class="font-mono text-xs" variant="secondary">
+              {technology}
+            </Badge>
+          ))}
+          {hiddenTechnologies > 0 && (
+            <span class="px-1 text-muted-foreground text-xs">
+              +{hiddenTechnologies}
+            </span>
+          )}
+        </div>
+      </CardContent>
+    )}
+
+    {(data.repoUrl || data.liveUrl) && (
+      <CardFooter class="relative z-20 mt-auto justify-end gap-3 border-t-0 bg-transparent pt-0">
+        {data.repoUrl && (
+          <Button
+            class="font-mono text-xs"
+            href={data.repoUrl}
+            rel="noreferrer"
+            size="sm"
+            target="_blank"
+            variant="outline"
+          >
+            <GithubIcon class="size-3.5" />
+            View Code
+          </Button>
+        )}
+        {data.liveUrl && (
+          <Button
+            class="font-mono text-xs"
+            href={data.liveUrl}
+            rel="noreferrer"
+            size="sm"
+            target="_blank"
+            variant="outline"
+          >
+            <ExternalLinkIcon class="size-3.5" />
+            Live Site
+          </Button>
+        )}
+      </CardFooter>
+    )}
+  </Card>
+</article>
