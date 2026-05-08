@@ -1,12 +1,13 @@
 ---
 interface Props {
+  class?: string;
   title: string;
 }
 
-const { title } = Astro.props;
+const { class: className, title } = Astro.props;
 ---
 
-<section class="mb-12">
+<section class={className}>
   <h2
     class="mb-4 font-mono font-medium text-muted-foreground text-xs uppercase"
   >

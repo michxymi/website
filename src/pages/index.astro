@@ -20,13 +20,13 @@ const { Content } = await render(about);
 <RootLayout>
   <PageHeader description={about.data.description} title={about.data.title} />
 
-  <AboutSection title="Bio">
+  <AboutSection class="mb-12" title="Bio">
     <Prose class="max-w-none text-sm md:text-base"> <Content /> </Prose>
   </AboutSection>
 
   <Separator class="my-8" />
 
-  <AboutSection title="Skills & Technologies"> <SkillsGrid /> </AboutSection>
+  <AboutSection class="mb-12" title="Skills & Technologies"> <SkillsGrid /> </AboutSection>
 
   <Separator class="my-8" />
 
