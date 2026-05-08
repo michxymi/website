@@ -1,5 +1,6 @@
 ---
 import { getEntry, render } from "astro:content";
+import AboutSection from "@/components/about-section.astro";
 import PageHeader from "@/components/page-header.astro";
 import SkillsGrid from "@/components/skills-grid.astro";
 import Prose from "@/components/starwind/prose";
@@ -17,38 +18,17 @@ const { Content } = await render(about);
 ---
 
 <RootLayout>
-  <div>
-    <PageHeader description={about.data.description} title={about.data.title} />
+  <PageHeader description={about.data.description} title={about.data.title} />
 
-    <section class="mb-12">
-      <h2
-        class="mb-4 font-mono font-medium text-muted-foreground text-xs uppercase"
-      >
-        Bio
-      </h2>
-      <Prose class="max-w-none text-sm md:text-base"> <Content /> </Prose>
-    </section>
+  <AboutSection title="Bio">
+    <Prose class="max-w-none text-sm md:text-base"> <Content /> </Prose>
+  </AboutSection>
 
-    <Separator class="my-8" />
+  <Separator class="my-8" />
 
-    <section class="mb-12">
-      <h2
-        class="mb-6 font-mono font-medium text-muted-foreground text-xs uppercase"
-      >
-        Skills & Technologies
-      </h2>
-      <SkillsGrid />
-    </section>
+  <AboutSection title="Skills & Technologies"> <SkillsGrid /> </AboutSection>
 
-    <Separator class="my-8" />
+  <Separator class="my-8" />
 
-    <section>
-      <h2
-        class="mb-6 font-mono font-medium text-muted-foreground text-xs uppercase"
-      >
-        Experience
-      </h2>
-      <WorkExperience />
-    </section>
-  </div>
+  <AboutSection title="Experience"> <WorkExperience /> </AboutSection>
 </RootLayout>
