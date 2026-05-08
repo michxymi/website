@@ -48,7 +48,7 @@ const readingTime = getReadingTime(post.body);
 
     <header class="mb-8">
       <PageHeader title={data.title} />
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-4">
         <div class="flex items-center gap-3 text-muted-foreground text-sm">
           <time class="font-mono" datetime={data.publishedAt.toISOString()}>
             {data.publishedAt.toLocaleDateString("en-GB", {

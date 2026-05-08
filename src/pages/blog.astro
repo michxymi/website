@@ -10,18 +10,16 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
 ---
 
 <RootLayout>
-  <div>
-    <PageHeader
-      description="I write words sometimes. You're here now. We both made choices."
-      title="Blog"
-    />
+  <PageHeader
+    description="I write words sometimes. You're here now. We both made choices."
+    title="Blog"
+  />
 
-    <section>
-      <div class="divide-y divide-border bg-background px-4">
-        {posts.map((post) => (
+  <section>
+    <div class="divide-y divide-border">
+      {posts.map((post) => (
                     <BlogCard post={post} />
                 ))}
-      </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </RootLayout>
