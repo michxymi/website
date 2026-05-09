@@ -1,0 +1,145 @@
+---
+import { getCollection } from "astro:content";
+import GithubChart from "@/components/github-chart.astro";
+import PageHeader from "@/components/page-header.astro";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+} from "@/components/starwind/card";
+import RootLayout from "@/layouts/root.astro";
+
+const description =
+  "A snapshot of what's happening. Before you commit to reading anything else.";
+
+const uses = [
+  { label: "Editor", value: "VS Code" },
+  { label: "AI", value: "Opencode" },
+  { label: "Terminal", value: "Ghostty" },
+  { label: "Notes", value: "Obsidian" },
+];
+
+const currently = [
+  {
+    label: "Reading",
+    value:
+      "Team Topologies: Organizing Business and Technology Teams for Fast Flow",
+  },
+  { label: "Listening", value: "The Diary of A CEO - Chris Koerner" },
+  { label: "Exploring", value: "Agent Skills" },
+  { label: "Building", value: "This site" },
+];
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+---
+
+<RootLayout>
+  <PageHeader description={description} title="Now" />
+
+  <div class="space-y-4">
+    <div class="grid gap-4 sm:grid-cols-2">
+      <Card size="sm" class="h-full bg-transparent">
+        <CardHeader>
+          <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+            Uses
+          </h2>
+        </CardHeader>
+        <CardContent>
+          <div class="grid grid-cols-2 gap-4">
+            {uses.map(({ label, value }) => (
+              <div>
+                <div class="text-muted-foreground text-xs">{label}</div>
+                <div class="font-display text-sm">{value}</div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card size="sm" class="h-full bg-transparent">
+        <CardHeader>
+          <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+            Currently
+          </h2>
+        </CardHeader>
+        <CardContent>
+          <div class="grid grid-cols-2 gap-4">
+            {currently.map(({ label, value }) => (
+              <div>
+                <div class="text-muted-foreground text-xs">{label}</div>
+                <div class="font-display text-sm leading-snug">{value}</div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+
+    <Card size="sm" class="bg-transparent">
+      <CardHeader>
+        <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+          GitHub Activity
+        </h2>
+        <CardAction>
+          <a
+            class="text-muted-foreground text-xs transition-colors hover:text-foreground"
+            href="https://github.com/michxymi"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            @michxymi &rarr;
+          </a>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <div class="overflow-x-auto">
+          <GithubChart />
+        </div>
+      </CardContent>
+    </Card>
+
+    {posts.length > 0 && (
+      <Card size="sm" class="bg-transparent">
+        <CardHeader>
+          <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+            Recent Posts
+          </h2>
+        </CardHeader>
+        <CardContent>
+          <div class="space-y-3">
+            {posts.map((post, index) => (
+              <a class="group flex items-start gap-3" href={`/blog/${post.id}`}>
+                <span
+                  class:list={[
+                    "mt-1 size-2 shrink-0 rounded-full",
+                    index === 0
+                      ? "bg-primary"
+                      : "border border-muted-foreground",
+                  ]}
+                />
+                <div class="min-w-0 flex-1">
+                  <div class="text-sm transition-colors group-hover:text-primary">
+                    {post.data.title}
+                  </div>
+                  <time
+                    class="text-muted-foreground text-xs"
+                    datetime={post.data.publishedAt.toISOString()}
+                  >
+                    {post.data.publishedAt.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </time>
+                </div>
+              </a>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )}
+  </div>
+</RootLayout>

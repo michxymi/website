@@ -1,0 +1,33 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  alt?: string;
+  username?: string;
+}
+
+const {
+  username = "michxymi",
+  alt = "GitHub contributions chart showing activity over the past year",
+  class: className,
+  ...rest
+} = Astro.props as Props;
+
+const src = `https://ghchart.rshah.org/${username}` as const;
+---
+
+<div
+  class:list={["relative min-h-26 w-full overflow-hidden rounded-md", className]}
+  {...rest}
+>
+  <img
+    alt={alt}
+    class="w-full dark:brightness-90 dark:contrast-125 dark:hue-rotate-180 dark:invert"
+    decoding="async"
+    fetchpriority="low"
+    height={104}
+    loading="eager"
+    src={src}
+    width={722}
+  />
+</div>
