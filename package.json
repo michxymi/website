@@ -21,7 +21,7 @@
     "typescript": "^6.0.3",
     "ultracite": "7.6.3"
   },
-  "name": "website",
+  "name": "@michxymi/website",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
