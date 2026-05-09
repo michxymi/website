@@ -18,8 +18,8 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
   <section>
     <div class="divide-y divide-border">
       {posts.map((post) => (
-                    <BlogCard post={post} />
-                ))}
+        <BlogCard post={post} />
+      ))}
     </div>
   </section>
 </RootLayout>
