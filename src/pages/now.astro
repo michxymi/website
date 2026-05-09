@@ -43,7 +43,9 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
     <div class="grid gap-4 sm:grid-cols-2">
       <Card size="sm" class="h-full bg-transparent">
         <CardHeader>
-          <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+          <h2
+            class="font-mono font-medium text-muted-foreground text-xs uppercase"
+          >
             Uses
           </h2>
         </CardHeader>
@@ -61,7 +63,9 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
 
       <Card size="sm" class="h-full bg-transparent">
         <CardHeader>
-          <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+          <h2
+            class="font-mono font-medium text-muted-foreground text-xs uppercase"
+          >
             Currently
           </h2>
         </CardHeader>
@@ -80,7 +84,9 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
 
     <Card size="sm" class="bg-transparent">
       <CardHeader>
-        <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+        <h2
+          class="font-mono font-medium text-muted-foreground text-xs uppercase"
+        >
           GitHub Activity
         </h2>
         <CardAction>
@@ -102,9 +108,9 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
     </Card>
 
     {posts.length > 0 && (
-      <Card size="sm" class="bg-transparent">
+      <Card class="bg-transparent" size="sm">
         <CardHeader>
-          <h2 class="font-mono font-medium text-muted-foreground text-xs uppercase">
+          <h2 class="font-medium font-mono text-muted-foreground text-xs uppercase">
             Recent Posts
           </h2>
         </CardHeader>
