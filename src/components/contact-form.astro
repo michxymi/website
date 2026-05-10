@@ -1,0 +1,112 @@
+---
+import Button from "@/components/starwind/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/starwind/card";
+import Input from "@/components/starwind/input";
+import Label from "@/components/starwind/label";
+import TextArea from "@/components/starwind/textarea";
+---
+
+<Card size="sm" class="bg-transparent">
+  <CardHeader>
+    <CardTitle class="font-display text-lg">Send a Message</CardTitle>
+    <CardDescription class="line-clamp-2">
+      Form&apos;s below. I&apos;ll get back to you. Unless you&apos;re trying to
+      sell me crypto - in which case, I won&apos;t.
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <form
+      action="https://formspree.io/f/movgwnrj"
+      class="space-y-4"
+      data-contact-form
+      method="post"
+    >
+      <div>
+        <Label class="mb-2 block font-display text-sm" for="name"> Name </Label>
+        <Input
+          autocomplete="name"
+          id="name"
+          name="name"
+          placeholder="Your name…"
+          required
+        />
+      </div>
+      <div>
+        <Label class="mb-2 block font-display text-sm" for="email">
+          Email
+        </Label>
+        <Input
+          autocomplete="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+          type="email"
+        />
+      </div>
+      <div>
+        <Label class="mb-2 block font-display text-sm" for="message">
+          Message
+        </Label>
+        <TextArea
+          autocomplete="off"
+          id="message"
+          name="message"
+          placeholder="Your message…"
+          required
+          rows={5}
+        />
+      </div>
+      <Button class="font-display" size="sm" type="submit">
+        Send Message
+      </Button>
+      <p class="text-muted-foreground text-xs">
+        By submitting, you agree to the
+        <a class="underline hover:text-primary" href="/privacy-policy">
+          Privacy Policy
+        </a>
+        .
+      </p>
+    </form>
+  </CardContent>
+</Card>
+
+<script>
+  const contactForm = document.querySelector<HTMLFormElement>(
+    "[data-contact-form]"
+  );
+
+  const announceResult = (result: "success" | "error") => {
+    contactForm?.dispatchEvent(
+      new CustomEvent(`contact-form:${result}`, {
+        bubbles: true,
+      })
+    );
+  };
+
+  contactForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: contactForm.method,
+        body: new FormData(contactForm),
+        headers: { Accept: "application/json" },
+      });
+
+      announceResult(response.ok ? "success" : "error");
+
+      if (response.ok) {
+        contactForm.reset();
+      }
+    } catch {
+      announceResult("error");
+    }
+  });
+</script>

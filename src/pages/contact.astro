@@ -1,0 +1,80 @@
+---
+import GithubIcon from "@tabler/icons/outline/brand-github.svg";
+import LinkedInIcon from "@tabler/icons/outline/brand-linkedin.svg";
+import XIcon from "@tabler/icons/outline/brand-x.svg";
+import ContactForm from "@/components/contact-form.astro";
+import PageHeader from "@/components/page-header.astro";
+import SocialLink from "@/components/social-link.astro";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/starwind/card";
+import RootLayout from "@/layouts/root.astro";
+
+const links = [
+  {
+    name: "Github",
+    url: "https://github.com/michxymi",
+    icon: GithubIcon,
+    description: "@michxymi",
+  },
+  {
+    name: "X",
+    url: "https://x.com/michxymi",
+    icon: XIcon,
+    description: "@michxymi",
+  },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/mxymitoulias/",
+    icon: LinkedInIcon,
+    description: "/in/mxymitoulias",
+  },
+];
+---
+
+<RootLayout>
+  <PageHeader
+    description="You've read this far. Might as well send a message."
+    title="Contact"
+  />
+
+  <div class="grid gap-6 md:grid-cols-2">
+    <ContactForm />
+
+    <Card size="sm" class="bg-transparent">
+      <CardHeader>
+        <CardTitle class="font-display text-lg">Connect</CardTitle>
+        <CardDescription class="line-clamp-2">
+          Other ways to find me - if the form felt too formal.
+        </CardDescription>
+      </CardHeader>
+      <CardContent class="space-y-2">
+        {links.map((link) => (
+              <SocialLink  link={link} />
+            ))}
+      </CardContent>
+    </Card>
+  </div>
+</RootLayout>
+
+<script>
+  import { toast } from "@/components/starwind/toast";
+
+  document.addEventListener("contact-form:success", () => {
+    toast.success("Message sent", {
+      description:
+        "Got it. I'll be in touch. Assuming the internet continues to function.",
+    });
+  });
+
+  document.addEventListener("contact-form:error", () => {
+    toast.error("Message didn't send", {
+      description:
+        "Something broke. Try again. The irony of a contact form preventing contact is not lost on me.",
+    });
+  });
+</script>
