@@ -9,7 +9,9 @@ import FolderIcon from "@tabler/icons/outline/folder.svg";
 import MailIcon from "@tabler/icons/outline/mail.svg";
 import UserIcon from "@tabler/icons/outline/user.svg";
 import Footer from "@/components/footer.astro";
+import { Toaster } from "@/components/starwind/toast";
 import ThemeSwitcher from "@/components/theme-switcher.astro";
+
 import "@/styles/starwind.css";
 import { Font } from "astro:assets";
 import {
@@ -235,5 +237,6 @@ const currentPath = normalizePath(Astro.url.pathname);
         </div>
       </main>
     </SidebarProvider>
+    <Toaster position="bottom-right" />
   </body>
 </html>
