@@ -1,0 +1,29 @@
+---
+import Button from "@/components/starwind/button";
+import RootLayout from "@/layouts/root.astro";
+---
+
+<RootLayout>
+  <div
+    class="flex flex-1 flex-col items-center justify-center py-16 text-center"
+  >
+    <div class="flex w-full max-w-md flex-col items-center">
+      <div
+        class="mb-4 font-mono font-medium text-muted-foreground text-xs uppercase"
+      >
+        404
+      </div>
+
+      <h1 class="mb-3 font-display text-2xl md:text-3xl">
+        This page does not exist
+      </h1>
+
+      <p class="mb-8 text-muted-foreground">
+        You asked for something that is not here. Maybe it never was. Maybe it
+        was and I deleted it. Either way, this is probably enough investigation.
+      </p>
+
+      <Button href="/"> Go home </Button>
+    </div>
+  </div>
+</RootLayout>
