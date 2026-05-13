@@ -1,11 +1,20 @@
 import tailwindcss from "@tailwindcss/vite";
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://astro.build/config
 export default defineConfig({
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      visualizer({
+        emitFile: true,
+        filename: "stats.html",
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    ],
   },
   fonts: [
     {
