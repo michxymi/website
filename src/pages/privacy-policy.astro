@@ -1,0 +1,33 @@
+---
+import { getEntry, render } from "astro:content";
+import PageHeader from "@/components/page-header.astro";
+import Prose from "@/components/starwind/prose";
+import RootLayout from "@/layouts/root.astro";
+
+const privacyPolicy = await getEntry("pages", "privacy-policy");
+
+if (!privacyPolicy) {
+  throw new Error("Missing content entry: pages/privacy-policy");
+}
+
+const { Content } = await render(privacyPolicy);
+const { data } = privacyPolicy;
+const description = data.updatedAt
+  ? `Last updated: ${data.updatedAt.toLocaleDateString("en-GB", {
+      month: "long",
+      year: "numeric",
+    })}`
+  : data.description;
+---
+
+<RootLayout>
+  <article>
+    <header class="mb-8">
+      <PageHeader description={description} title={data.title} />
+    </header>
+
+    <Prose class="max-w-none text-sm md:text-base">
+      <Content />
+    </Prose>
+  </article>
+</RootLayout>
