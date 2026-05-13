@@ -1,6 +1,6 @@
 ---
 title: Privacy Policy
-updatedAt: 2025-12-01
+updatedAt: 2026-05-13
 ---
 
 ## Who I Am
