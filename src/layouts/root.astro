@@ -74,10 +74,7 @@ const social = [
   },
 ];
 
-const trailingSlashPattern = /\/$/;
-const normalizePath = (path: string) =>
-  path.replace(trailingSlashPattern, "") || "/";
-const currentPath = normalizePath(Astro.url.pathname);
+const currentPath = Astro.url.pathname;
 ---
 
 <html lang="en">
@@ -85,6 +82,7 @@ const currentPath = normalizePath(Astro.url.pathname);
     <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" href="/favicon.ico">
+    <link rel="sitemap" href="/sitemap-index.xml">
     <meta name="viewport" content="width=device-width">
     <meta name="generator" content={Astro.generator}>
     <Font
@@ -171,7 +169,7 @@ const currentPath = normalizePath(Astro.url.pathname);
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       href={item.url}
-                      isActive={currentPath === normalizePath(item.url)}
+                      isActive={currentPath === item.url}
                       tooltip={item.title}
                     >
                       <item.icon />

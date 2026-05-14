@@ -1,3 +1,4 @@
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
@@ -16,6 +17,7 @@ export default defineConfig({
       }),
     ],
   },
+  site: "https://michxymi.com",
   fonts: [
     {
       provider: fontProviders.fontsource(),
@@ -34,4 +36,5 @@ export default defineConfig({
       fallbacks: ["sans-serif"],
     },
   ],
+  integrations: [sitemap()],
 });
