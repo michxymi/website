@@ -1,3 +1,4 @@
+import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 // @ts-check
@@ -23,11 +24,14 @@ export default defineConfig({
         : []),
     ],
   },
+
   site: "https://michxymi.com",
   trailingSlash: "never",
+
   build: {
     format: "file",
   },
+
   fonts: [
     {
       provider: fontProviders.fontsource(),
@@ -46,5 +50,7 @@ export default defineConfig({
       fallbacks: ["sans-serif"],
     },
   ],
+
   integrations: [sitemap()],
+  adapter: cloudflare(),
 });

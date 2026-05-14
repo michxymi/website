@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # vscode settings folder
 .vscode/
+
+# cloudflare
+.wrangler
