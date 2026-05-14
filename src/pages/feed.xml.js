@@ -1,6 +1,6 @@
 import rss from "@astrojs/rss";
-import { getPublishedPosts } from "@/lib/post-utils";
 import { SEO_CONFIG } from "@/lib/seo";
+import { getPublishedPosts } from "@/lib/utils/posts";
 
 export async function GET(context) {
   const posts = await getPublishedPosts();

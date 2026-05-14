@@ -1,13 +1,13 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import ProjectLinks from "@/components/project-links.astro";
+import ProjectLinks from "@/components/projects/links.astro";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
+  Card as StarwindCard,
 } from "@/components/starwind/card";
 import TagList from "@/components/tag-list.astro";
 
@@ -20,7 +20,7 @@ const { data } = project;
 ---
 
 <article class="group h-full">
-  <Card
+  <StarwindCard
     size="sm"
     class="relative h-full transition-colors hover:bg-muted/50 bg-transparent"
   >
@@ -58,5 +58,5 @@ const { data } = project;
         />
       </CardFooter>
     )}
-  </Card>
+  </StarwindCard>
 </article>

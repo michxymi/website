@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import TagList from "@/components/tag-list.astro";
-import { formatShortPostDate } from "@/lib/date-utils";
+import { formatShortPostDate } from "@/lib/utils/date";
 
 interface Props {
   post: CollectionEntry<"posts">;

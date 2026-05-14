@@ -3,8 +3,8 @@ import { Font } from "astro:assets";
 import JsonLd from "@/components/seo/json-ld.astro";
 import Person from "@/components/seo/person.astro";
 import Website from "@/components/seo/website.astro";
+import type { JsonLdData } from "@/lib/seo";
 import { SEO_CONFIG } from "@/lib/seo";
-import type { JsonLdData } from "@/lib/structured-data";
 
 interface Props {
   canonical?: string;

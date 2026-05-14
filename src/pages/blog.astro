@@ -1,8 +1,8 @@
 ---
-import BlogCard from "@/components/blog-card.astro";
+import BlogCard from "@/components/blog/card.astro";
 import PageHeader from "@/components/page-header.astro";
 import RootLayout from "@/layouts/root.astro";
-import { getPublishedPosts } from "@/lib/post-utils";
+import { getPublishedPosts } from "@/lib/utils/posts";
 
 const posts = await getPublishedPosts();
 const description =

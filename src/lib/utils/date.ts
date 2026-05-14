@@ -10,12 +10,6 @@ const longPostDateFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
 });
 
-const recentPostDateFormatter = new Intl.DateTimeFormat("en-GB", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
 const monthYearFormatter = new Intl.DateTimeFormat("en-GB", {
   month: "long",
   year: "numeric",
@@ -26,8 +20,5 @@ export const formatShortPostDate = (date: Date) =>
 
 export const formatLongPostDate = (date: Date) =>
   longPostDateFormatter.format(date);
-
-export const formatRecentPostDate = (date: Date) =>
-  recentPostDateFormatter.format(date);
 
 export const formatMonthYear = (date: Date) => monthYearFormatter.format(date);

@@ -6,9 +6,9 @@ import PageHeader from "@/components/page-header.astro";
 import Prose from "@/components/starwind/prose";
 import TagList from "@/components/tag-list.astro";
 import RootLayout from "@/layouts/root.astro";
-import { formatLongPostDate } from "@/lib/date-utils";
-import { getPostStaticPaths, getReadingTime } from "@/lib/post-utils";
-import { getBlogPostingStructuredData } from "@/lib/structured-data";
+import { getBlogPostingStructuredData } from "@/lib/seo";
+import { formatLongPostDate } from "@/lib/utils/date";
+import { getPostStaticPaths, getReadingTime } from "@/lib/utils/posts";
 
 interface Props {
   post: CollectionEntry<"posts">;

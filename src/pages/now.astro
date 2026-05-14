@@ -1,5 +1,5 @@
 ---
-import GithubChart from "@/components/github-chart.astro";
+import GithubChart from "@/components/now/github-chart.astro";
 import PageHeader from "@/components/page-header.astro";
 import SectionKicker from "@/components/section-kicker.astro";
 import {
@@ -9,9 +9,9 @@ import {
   CardHeader,
 } from "@/components/starwind/card";
 import RootLayout from "@/layouts/root.astro";
-import { formatRecentPostDate } from "@/lib/date-utils";
-import { getRecentPosts } from "@/lib/post-utils";
-import { SOCIAL_LINKS } from "@/lib/social-links";
+import { SOCIAL_LINKS } from "@/lib/social";
+import { formatShortPostDate } from "@/lib/utils/date";
+import { getRecentPosts } from "@/lib/utils/posts";
 
 const description =
   "A snapshot of what's happening. Before you commit to reading anything else." as const;
@@ -129,7 +129,7 @@ if (!githubLink) {
                     class="text-muted-foreground text-xs"
                     datetime={post.data.publishedAt.toISOString()}
                   >
-                    {formatRecentPostDate(post.data.publishedAt)}
+                    {formatShortPostDate(post.data.publishedAt)}
                   </time>
                 </div>
               </a>

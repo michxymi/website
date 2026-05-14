@@ -1,7 +1,6 @@
 ---
-import ContactForm from "@/components/contact-form.astro";
+import ContactForm from "@/components/contact/form.astro";
 import PageHeader from "@/components/page-header.astro";
-import SocialLink from "@/components/social-link.astro";
 import {
   Card,
   CardContent,
@@ -10,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/starwind/card";
 import RootLayout from "@/layouts/root.astro";
-import { SOCIAL_LINKS } from "@/lib/social-links";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 const description =
   "You've read this far. Might as well send a message." as const;
@@ -37,7 +36,20 @@ const metaDescription =
       </CardHeader>
       <CardContent class="space-y-2">
         {SOCIAL_LINKS.map((link) => (
-              <SocialLink  link={link} />
+              <a
+                class="group flex items-center gap-3 rounded-lg border border-border p-3 transition-colors hover:bg-muted/30"
+                href={link.url}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <link.icon
+                  class="size-5 text-muted-foreground transition-colors group-hover:text-primary"
+                />
+                <div>
+                  <div class="font-display text-sm">{link.name}</div>
+                  <div class="text-muted-foreground text-xs">{link.description}</div>
+                </div>
+              </a>
             ))}
       </CardContent>
     </Card>

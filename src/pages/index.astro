@@ -1,11 +1,11 @@
 ---
 import { getEntry, render } from "astro:content";
-import AboutSection from "@/components/about-section.astro";
+import AboutSection from "@/components/about/section.astro";
+import SkillsGrid from "@/components/about/skills-grid.astro";
+import WorkExperience from "@/components/about/work-experience.astro";
 import PageHeader from "@/components/page-header.astro";
-import SkillsGrid from "@/components/skills-grid.astro";
 import Prose from "@/components/starwind/prose";
 import Separator from "@/components/starwind/separator";
-import WorkExperience from "@/components/work-experience.astro";
 import RootLayout from "@/layouts/root.astro";
 
 const about = await getEntry("pages", "about");

@@ -5,7 +5,6 @@ import DownloadIcon from "@tabler/icons/outline/download.svg";
 import FolderIcon from "@tabler/icons/outline/folder.svg";
 import MailIcon from "@tabler/icons/outline/mail.svg";
 import UserIcon from "@tabler/icons/outline/user.svg";
-import Footer from "@/components/footer.astro";
 import Head from "@/components/seo/head.astro";
 import { Toaster } from "@/components/starwind/toast";
 import ThemeSwitcher from "@/components/theme-switcher.astro";
@@ -31,11 +30,12 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/starwind/sidebar";
+import type { JsonLdData } from "@/lib/seo";
 import { SEO_CONFIG } from "@/lib/seo";
-import { SOCIAL_LINKS } from "@/lib/social-links";
-import type { JsonLdData } from "@/lib/structured-data";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 const currentPath = Astro.url.pathname;
+const currentYear = new Date().getFullYear();
 
 const SITE_NAVIGATION = [
   {
@@ -202,7 +202,22 @@ const {
           <div class="mx-auto mb-12 flex w-full max-w-4xl flex-1 flex-col">
             <slot />
           </div>
-          <Footer />
+          <footer
+            class="mt-auto border-border border-t py-6 text-center text-muted-foreground text-xs"
+          >
+            <div
+              class="flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-4"
+            >
+              <a
+                class="transition-colors hover:text-foreground"
+                href="/privacy-policy"
+              >
+                Privacy Policy
+              </a>
+              <span class="hidden sm:inline">·</span>
+              <span>© {currentYear} Michael Xymitoulias</span>
+            </div>
+          </footer>
         </div>
       </main>
     </SidebarProvider>
