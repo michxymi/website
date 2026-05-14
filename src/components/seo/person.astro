@@ -1,0 +1,33 @@
+---
+import JsonLd from "@/components/seo/json-ld.astro";
+import { SEO_CONFIG } from "@/lib/seo";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SEO_CONFIG.url}/#person`,
+  name: SEO_CONFIG.author.name,
+  alternateName: "michxymi",
+  jobTitle: SEO_CONFIG.author.jobTitle,
+  url: SEO_CONFIG.url,
+  sameAs: SEO_CONFIG.socialProfileUrls,
+  worksFor: {
+    "@type": "Organization",
+    name: SEO_CONFIG.author.worksFor,
+  },
+  knowsAbout: [
+    "Software Engineering",
+    "Technical Leadership",
+    "Developer Tools",
+    "React",
+    "Typescript",
+    "Python",
+    "C++",
+    "NextJS",
+  ],
+  description:
+    "Full Stack Software Engineer and Engineering Manager with expertise in developer tools, web applications, and technical leadership.",
+} as const;
+---
+
+<JsonLd data={schema} />

@@ -1,14 +1,5 @@
 ---
-import type GithubIcon from "@tabler/icons/outline/brand-github.svg";
-import type LinkedInIcon from "@tabler/icons/outline/brand-linkedin.svg";
-import type XIcon from "@tabler/icons/outline/brand-x.svg";
-
-interface SocialLink {
-  description?: string;
-  icon: typeof GithubIcon | typeof LinkedInIcon | typeof XIcon;
-  name: string;
-  url: string;
-}
+import type { SocialLink } from "@/lib/social-links";
 
 interface Props {
   link: SocialLink;

@@ -45,7 +45,10 @@ const iconMap = {
   code: CodeIcon,
   design: CompassIcon,
   education: SchoolIcon,
-} satisfies Record<ExperienceEntry["data"]["icon"], typeof BriefcaseIcon>;
+} as const satisfies Record<
+  ExperienceEntry["data"]["icon"],
+  typeof BriefcaseIcon
+>;
 
 const positions = await Promise.all(
   [...experiences]

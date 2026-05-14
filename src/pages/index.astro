@@ -15,9 +15,11 @@ if (!about) {
 }
 
 const { Content } = await render(about);
+const metaDescription =
+  "Michael Xymitoulias is a software engineer and engineering manager building developer tools, React applications, Python tooling, and productive software teams." as const;
 ---
 
-<RootLayout>
+<RootLayout pageTitle="About" pageDescription={metaDescription} canonical="/">
   <PageHeader description={about.data.description} title={about.data.title} />
 
   <AboutSection class="mb-12" title="Bio">

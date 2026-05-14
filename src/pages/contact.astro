@@ -1,7 +1,4 @@
 ---
-import GithubIcon from "@tabler/icons/outline/brand-github.svg";
-import LinkedInIcon from "@tabler/icons/outline/brand-linkedin.svg";
-import XIcon from "@tabler/icons/outline/brand-x.svg";
 import ContactForm from "@/components/contact-form.astro";
 import PageHeader from "@/components/page-header.astro";
 import SocialLink from "@/components/social-link.astro";
@@ -13,34 +10,20 @@ import {
   CardTitle,
 } from "@/components/starwind/card";
 import RootLayout from "@/layouts/root.astro";
+import { SOCIAL_LINKS } from "@/lib/social-links";
 
-const links = [
-  {
-    name: "Github",
-    url: "https://github.com/michxymi",
-    icon: GithubIcon,
-    description: "@michxymi",
-  },
-  {
-    name: "X",
-    url: "https://x.com/michxymi",
-    icon: XIcon,
-    description: "@michxymi",
-  },
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/mxymitoulias/",
-    icon: LinkedInIcon,
-    description: "/in/mxymitoulias",
-  },
-];
+const description =
+  "You've read this far. Might as well send a message." as const;
+const metaDescription =
+  "Contact Michael Xymitoulias for software engineering, technical leadership, developer tools, and web application work." as const;
 ---
 
-<RootLayout>
-  <PageHeader
-    description="You've read this far. Might as well send a message."
-    title="Contact"
-  />
+<RootLayout
+  pageTitle="Contact"
+  pageDescription={metaDescription}
+  canonical="/contact"
+>
+  <PageHeader description={description} title="Contact" />
 
   <div class="grid gap-6 md:grid-cols-2">
     <ContactForm />
@@ -53,7 +36,7 @@ const links = [
         </CardDescription>
       </CardHeader>
       <CardContent class="space-y-2">
-        {links.map((link) => (
+        {SOCIAL_LINKS.map((link) => (
               <SocialLink  link={link} />
             ))}
       </CardContent>

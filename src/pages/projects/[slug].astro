@@ -27,7 +27,13 @@ const { Content } = await render(project);
 const { data } = project;
 ---
 
-<RootLayout>
+<RootLayout
+  pageTitle={data.title}
+  pageDescription={data.description}
+  pageImage={data.coverImage}
+  pageImageAlt={data.title}
+  canonical={`/projects/${project.id}`}
+>
   <article>
     <a
       class="mb-6 inline-flex items-center gap-1 text-muted-foreground text-sm transition-colors hover:text-primary"

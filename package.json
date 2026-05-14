@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@tabler/icons": "^3.42.0",
     "@tailwindcss/forms": "^0.5.11",
@@ -12,6 +13,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@astrojs/ts-plugin": "^1.10.7",
     "@biomejs/biome": "2.4.15",
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
@@ -32,7 +34,7 @@
     "check": "ultracite check",
     "fix": "ultracite fix",
     "prepare": "lefthook install",
-    "typecheck": "astro check && tsc --noEmit"
+    "typecheck": "astro check"
   },
   "type": "module",
   "version": "0.0.1",

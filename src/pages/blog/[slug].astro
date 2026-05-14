@@ -5,6 +5,7 @@ import PageHeader from "@/components/page-header.astro";
 import { Badge } from "@/components/starwind/badge";
 import Prose from "@/components/starwind/prose";
 import RootLayout from "@/layouts/root.astro";
+import { getBlogPostingStructuredData } from "@/lib/structured-data";
 
 interface Props {
   post: CollectionEntry<"posts">;
@@ -35,9 +36,18 @@ const { post } = Astro.props as Props;
 const { Content } = await render(post);
 const { data } = post;
 const readingTime = getReadingTime(post.body);
+const structuredData = getBlogPostingStructuredData(post);
 ---
 
-<RootLayout>
+<RootLayout
+  pageTitle={data.title}
+  pageDescription={data.description}
+  pageImage={data.coverImage}
+  pageImageAlt={data.title}
+  pageType="article"
+  canonical={`/blog/${post.id}`}
+  structuredData={structuredData}
+>
   <article>
     <a
       class="mb-6 inline-flex items-center gap-1 text-muted-foreground text-sm transition-colors hover:text-primary"

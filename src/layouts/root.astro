@@ -1,19 +1,15 @@
 ---
 import ActivityHeartbeat from "@tabler/icons/outline/activity-heartbeat.svg";
 import BookOpenIcon from "@tabler/icons/outline/book.svg";
-import GithubIcon from "@tabler/icons/outline/brand-github.svg";
-import LinkedInIcon from "@tabler/icons/outline/brand-linkedin.svg";
-import XIcon from "@tabler/icons/outline/brand-x.svg";
 import DownloadIcon from "@tabler/icons/outline/download.svg";
 import FolderIcon from "@tabler/icons/outline/folder.svg";
 import MailIcon from "@tabler/icons/outline/mail.svg";
 import UserIcon from "@tabler/icons/outline/user.svg";
 import Footer from "@/components/footer.astro";
+import Head from "@/components/seo/head.astro";
 import { Toaster } from "@/components/starwind/toast";
 import ThemeSwitcher from "@/components/theme-switcher.astro";
-
 import "@/styles/starwind.css";
-import { Font } from "astro:assets";
 import {
   Avatar,
   AvatarFallback,
@@ -35,6 +31,8 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/starwind/sidebar";
+import { SOCIAL_LINKS } from "@/lib/social-links";
+import type { JsonLdData } from "@/lib/structured-data";
 
 const navMain = [
   {
@@ -62,78 +60,44 @@ const navMain = [
     url: "/contact",
     icon: MailIcon,
   },
-];
-
-const social = [
-  { name: "Github", url: "https://github.com/michxymi", icon: GithubIcon },
-  { name: "X", url: "https://x.com/michxymi", icon: XIcon },
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/mxymitoulias/",
-    icon: LinkedInIcon,
-  },
-];
+] as const;
 
 const currentPath = Astro.url.pathname;
+
+interface Props {
+  canonical?: string;
+  pageDescription?: string;
+  pageImage?: string;
+  pageImageAlt?: string;
+  pageRobots?: string;
+  pageTitle?: string;
+  pageType?: "article" | "profile" | "website";
+  structuredData?: JsonLdData | JsonLdData[];
+}
+
+const {
+  canonical,
+  pageDescription,
+  pageImage,
+  pageImageAlt,
+  pageRobots,
+  pageTitle,
+  pageType,
+  structuredData,
+} = Astro.props as Props;
 ---
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="sitemap" href="/sitemap-index.xml">
-    <meta name="viewport" content="width=device-width">
-    <meta name="generator" content={Astro.generator}>
-    <Font
-      cssVariable="--font-ibm-plex-sans"
-      preload={[{ weight: 400, style: "normal" }]}
-    />
-    <Font cssVariable="--font-jetbrains-mono" />
-
-    <title>Astro</title>
-    <script is:inline>
-      function prefersDarkTheme() {
-        return (
-          window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false
-        );
-      }
-
-      function initTheme() {
-        const colorTheme = localStorage.getItem("colorTheme");
-
-        if (colorTheme === "dark") {
-          document.documentElement.classList.add("dark");
-          return;
-        }
-
-        if (colorTheme === "light") {
-          document.documentElement.classList.remove("dark");
-          return;
-        }
-
-        if (colorTheme === "system") {
-          document.documentElement.classList.toggle("dark", prefersDarkTheme());
-          return;
-        }
-
-        if (prefersDarkTheme()) {
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("colorTheme", "dark");
-          return;
-        }
-
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("colorTheme", "light");
-      }
-
-      // runs on initial page load
-      initTheme();
-
-      // runs on view transitions navigation
-      document.addEventListener("astro:after-swap", initTheme);
-    </script>
-  </head>
+  <Head
+    canonical={canonical}
+    description={pageDescription}
+    image={pageImage}
+    imageAlt={pageImageAlt}
+    robots={pageRobots}
+    structuredData={structuredData}
+    title={pageTitle}
+    type={pageType}
+  />
   <body class="antialiased">
     <SidebarProvider>
       <Sidebar collapsible="icon">
@@ -185,7 +149,7 @@ const currentPath = Astro.url.pathname;
             <SidebarGroupLabel>Social</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {social.map((social) => (
+                {SOCIAL_LINKS.map((social) => (
                 <SidebarMenuItem>
                   <SidebarMenuButton href={social.url} tooltip={social.name}>
                     <social.icon />

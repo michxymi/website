@@ -11,14 +11,16 @@ import {
 import RootLayout from "@/layouts/root.astro";
 
 const description =
-  "A snapshot of what's happening. Before you commit to reading anything else.";
+  "A snapshot of what's happening. Before you commit to reading anything else." as const;
+const metaDescription =
+  "A current snapshot of what Michael Xymitoulias is reading, using, exploring, and building across software engineering, developer tools, and technical leadership." as const;
 
 const uses = [
   { label: "Editor", value: "Zed" },
   { label: "AI", value: "Codex" },
   { label: "Terminal", value: "Ghostty" },
   { label: "Machine", value: 'MacBook Pro 16"' },
-];
+] as const;
 
 const currently = [
   {
@@ -29,14 +31,14 @@ const currently = [
   { label: "Listening", value: "The Diary of A CEO - Chris Koerner" },
   { label: "Exploring", value: "Agent Skills" },
   { label: "Building", value: "This site" },
-];
+] as const;
 
 const posts = (await getCollection("posts", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
   .slice(0, 3);
 ---
 
-<RootLayout>
+<RootLayout pageTitle="Now" pageDescription={metaDescription} canonical="/now">
   <PageHeader description={description} title="Now" />
 
   <div class="space-y-4">

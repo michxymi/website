@@ -20,7 +20,12 @@ const description = data.updatedAt
   : data.description;
 ---
 
-<RootLayout>
+<RootLayout
+  pageTitle={data.title}
+  pageDescription={data.description}
+  canonical="/privacy-policy"
+  pageRobots="noindex, nofollow"
+>
   <article>
     <header class="mb-8">
       <PageHeader description={description} title={data.title} />

@@ -1,0 +1,11 @@
+---
+import type { JsonLdData } from "@/lib/structured-data";
+
+interface Props {
+  data: JsonLdData;
+}
+
+const { data } = Astro.props as Props;
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />

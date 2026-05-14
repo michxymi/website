@@ -5,13 +5,17 @@ import ProjectCard from "@/components/project-card.astro";
 import RootLayout from "@/layouts/root.astro";
 
 const projects = await getCollection("projects");
+const description = "Things I built that didn't immediately catch fire.";
+const metaDescription =
+  "Software projects by Michael Xymitoulias, including portfolio work, developer tools, web applications, TypeScript, React, and engineering experiments.";
 ---
 
-<RootLayout>
-  <PageHeader
-    description="Things I built that didn't immediately catch fire."
-    title="Projects"
-  />
+<RootLayout
+  pageTitle="Projects"
+  pageDescription={metaDescription}
+  canonical="/projects"
+>
+  <PageHeader description={description} title="Projects" />
 
   <section>
     <div class="grid gap-4 sm:grid-cols-2">

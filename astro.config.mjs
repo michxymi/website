@@ -4,20 +4,30 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
 import { visualizer } from "rollup-plugin-visualizer";
 
+const shouldAnalyze = process.env.ANALYZE === "true";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [
       tailwindcss(),
-      visualizer({
-        emitFile: true,
-        filename: "stats.html",
-        gzipSize: true,
-        brotliSize: true,
-      }),
+      ...(shouldAnalyze
+        ? [
+            visualizer({
+              emitFile: true,
+              filename: "stats.html",
+              gzipSize: true,
+              brotliSize: true,
+            }),
+          ]
+        : []),
     ],
   },
   site: "https://michxymi.com",
+  trailingSlash: "never",
+  build: {
+    format: "file",
+  },
   fonts: [
     {
       provider: fontProviders.fontsource(),

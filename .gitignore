@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # zed settings folder
 .zed/
+
+# vscode settings folder
+.vscode/
