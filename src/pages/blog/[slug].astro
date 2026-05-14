@@ -1,35 +1,21 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
+import BackLink from "@/components/back-link.astro";
 import PageHeader from "@/components/page-header.astro";
-import { Badge } from "@/components/starwind/badge";
 import Prose from "@/components/starwind/prose";
+import TagList from "@/components/tag-list.astro";
 import RootLayout from "@/layouts/root.astro";
+import { formatLongPostDate } from "@/lib/date-utils";
+import { getPostStaticPaths, getReadingTime } from "@/lib/post-utils";
 import { getBlogPostingStructuredData } from "@/lib/structured-data";
 
 interface Props {
   post: CollectionEntry<"posts">;
 }
 
-const wordsPerMinute = 200 as const;
-const whitespacePattern = /\s+/;
-
-const getReadingTime = (content = "") =>
-  Math.max(
-    1,
-    Math.ceil(
-      content.trim().split(whitespacePattern).filter(Boolean).length /
-        wordsPerMinute
-    )
-  );
-
 export async function getStaticPaths() {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
-
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  return await getPostStaticPaths();
 }
 
 const { post } = Astro.props as Props;
@@ -49,38 +35,18 @@ const structuredData = getBlogPostingStructuredData(post);
   structuredData={structuredData}
 >
   <article>
-    <a
-      class="mb-6 inline-flex items-center gap-1 text-muted-foreground text-sm transition-colors hover:text-primary"
-      href="/blog"
-    >
-      &larr; Back to blog
-    </a>
+    <BackLink href="/blog" label="Back to blog" />
 
     <header class="mb-8">
       <PageHeader title={data.title} />
       <div class="flex flex-col gap-4">
         <div class="flex items-center gap-3 text-muted-foreground text-sm">
           <time class="font-mono" datetime={data.publishedAt.toISOString()}>
-            {data.publishedAt.toLocaleDateString("en-GB", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })}
+            {formatLongPostDate(data.publishedAt)}
           </time>
           <span class="font-display">{readingTime} min read</span>
         </div>
-        {data.tags.length > 0 && (
-                        <div class="flex flex-wrap gap-2">
-                            {data.tags.map((tag) => (
-                                <Badge
-                                    class="font-mono text-xs"
-                                    variant="secondary"
-                                >
-                                    {tag}
-                                </Badge>
-                            ))}
-                        </div>
-                    )}
+        <TagList items={data.tags} />
       </div>
     </header>
 

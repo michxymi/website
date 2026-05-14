@@ -19,7 +19,7 @@ const { class: className } = Astro.props as Props;
     className,
   ]}
   aria-label="Toggle theme"
-  data-theme-toggle-02
+  data-theme-toggle
 >
   <span class="size-4" data-theme-icon-wrapper>
     <Sun
@@ -36,118 +36,46 @@ const { class: className } = Astro.props as Props;
 <script>
   import type { ToggleChangeEvent } from "@/components/starwind/toggle";
 
-  class ThemeToggleHandler {
-    private readonly toggle: HTMLButtonElement;
-    private isInitializing = true;
+  const themeToggleSelector = "[data-theme-toggle]";
 
-    constructor(toggle: HTMLButtonElement) {
-      this.toggle = toggle;
+  const syncToggleState = (toggle: HTMLButtonElement) => {
+    const isDark = document.documentElement.classList.contains("dark");
 
-      this.initializeState();
-      this.setupEventListeners();
+    toggle.setAttribute("data-state", isDark ? "on" : "off");
+    toggle.setAttribute("aria-pressed", isDark.toString());
 
-      // Mark initialization complete after a microtask
-      queueMicrotask(() => {
-        this.isInitializing = false;
-      });
+    for (const icon of toggle.querySelectorAll("[data-theme-icon]")) {
+      icon.setAttribute("data-ready", "");
+    }
+  };
+
+  const setupThemeToggle = (toggle: HTMLButtonElement) => {
+    syncToggleState(toggle);
+
+    if (toggle.dataset.themeToggleReady) {
+      return;
     }
 
-    private initializeState(): void {
-      // Determine if dark mode is active based on the document class
-      // This handles "system" correctly since initTheme already applied the right class
-      const isDark = document.documentElement.classList.contains("dark");
+    toggle.dataset.themeToggleReady = "true";
 
-      this.toggle.setAttribute("data-state", isDark ? "on" : "off");
-      this.toggle.setAttribute("aria-pressed", isDark.toString());
-
-      // Mark icons as ready to show (prevents flash of wrong icon)
-      for (const icon of this.toggle.querySelectorAll("[data-theme-icon]")) {
-        icon.setAttribute("data-ready", "");
-      }
-    }
-
-    private setupEventListeners(): void {
-      this.toggle.addEventListener("starwind-toggle:change", (event: Event) =>
-        this.handleToggleChange(event)
-      );
-    }
-
-    private handleToggleChange(event: Event): void {
-      // Don't dispatch theme:change during initialization
-      if (this.isInitializing) {
-        return;
-      }
-
+    toggle.addEventListener("starwind-toggle:change", (event: Event) => {
       const { pressed } = (event as ToggleChangeEvent).detail;
 
-      // Update theme based on toggle state
-      const newTheme = pressed ? "dark" : "light";
-
       document.documentElement.classList.toggle("dark", pressed);
-      localStorage.setItem("colorTheme", newTheme);
+      localStorage.setItem("colorTheme", pressed ? "dark" : "light");
+      syncToggleState(toggle);
+    });
+  };
 
-      // Dispatch custom event to sync other theme toggles
-      document.dispatchEvent(
-        new CustomEvent("theme:change", {
-          detail: { theme: newTheme },
-        })
-      );
-    }
-
-    syncState(theme: string): void {
-      let shouldBeOn: boolean;
-      if (theme === "system") {
-        shouldBeOn = document.documentElement.classList.contains("dark");
-      } else {
-        shouldBeOn = theme === "dark";
-      }
-
-      const newState = shouldBeOn ? "on" : "off";
-
-      // Only update if state actually changed to prevent loops
-      if (this.toggle.getAttribute("data-state") !== newState) {
-        this.toggle.setAttribute("data-state", newState);
-        this.toggle.setAttribute("aria-pressed", shouldBeOn.toString());
-      }
-    }
-  }
-
-  // Store instances in a WeakMap to avoid memory leaks
-  const themeToggleInstances = new WeakMap<HTMLElement, ThemeToggleHandler>();
-  // Track active toggles for iteration (WeakMap is not iterable)
-  const activeToggles = new Set<HTMLButtonElement>();
-
-  const setupThemeToggles = (clearExisting = false) => {
-    // Clear stale references on page transitions to prevent memory leaks
-    if (clearExisting) {
-      activeToggles.clear();
-    }
-
+  const setupThemeToggles = () => {
     for (const toggle of document.querySelectorAll<HTMLButtonElement>(
-      "[data-theme-toggle-02]"
+      themeToggleSelector
     )) {
-      if (!themeToggleInstances.has(toggle)) {
-        themeToggleInstances.set(toggle, new ThemeToggleHandler(toggle));
-      }
-      activeToggles.add(toggle);
+      setupThemeToggle(toggle);
     }
   };
-
-  // Listen for theme changes from other toggles
-  const handleThemeChange = (event: Event) => {
-    const { theme } = (event as CustomEvent).detail;
-
-    for (const toggle of activeToggles) {
-      const instance = themeToggleInstances.get(toggle);
-      if (instance) {
-        instance.syncState(theme);
-      }
-    }
-  };
-
-  document.addEventListener("theme:change", handleThemeChange);
 
   setupThemeToggles();
-  document.addEventListener("astro:after-swap", () => setupThemeToggles(true));
+  document.addEventListener("astro:after-swap", setupThemeToggles);
   document.addEventListener("starwind:init", () => setupThemeToggles());
 </script>

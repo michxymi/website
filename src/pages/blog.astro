@@ -1,13 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import BlogCard from "@/components/blog-card.astro";
 import PageHeader from "@/components/page-header.astro";
 import RootLayout from "@/layouts/root.astro";
+import { getPublishedPosts } from "@/lib/post-utils";
 
-const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
-);
-
+const posts = await getPublishedPosts();
 const description =
   "I write words sometimes. You're here now. We both made choices.";
 const metaDescription =

@@ -1,4 +1,5 @@
 ---
+import SectionKicker from "@/components/section-kicker.astro";
 import Button from "@/components/starwind/button";
 import RootLayout from "@/layouts/root.astro";
 ---
@@ -12,11 +13,7 @@ import RootLayout from "@/layouts/root.astro";
     class="flex flex-1 flex-col items-center justify-center py-16 text-center"
   >
     <div class="flex w-full max-w-md flex-col items-center">
-      <div
-        class="mb-4 font-mono font-medium text-muted-foreground text-xs uppercase"
-      >
-        500
-      </div>
+      <SectionKicker as="div" class="mb-4">500</SectionKicker>
 
       <h1 class="mb-3 font-display text-2xl md:text-3xl">Something broke</h1>
 

@@ -43,21 +43,3 @@ const metaDescription =
     </Card>
   </div>
 </RootLayout>
-
-<script>
-  import { toast } from "@/components/starwind/toast";
-
-  document.addEventListener("contact-form:success", () => {
-    toast.success("Message sent", {
-      description:
-        "Got it. I'll be in touch. Assuming the internet continues to function.",
-    });
-  });
-
-  document.addEventListener("contact-form:error", () => {
-    toast.error("Message didn't send", {
-      description:
-        "Something broke. Try again. The irony of a contact form preventing contact is not lost on me.",
-    });
-  });
-</script>

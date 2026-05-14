@@ -9,6 +9,7 @@ import InfinityIcon from "@tabler/icons/outline/infinity.svg";
 import SchoolIcon from "@tabler/icons/outline/school.svg";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import Prose from "@/components/starwind/prose";
+import { formatMonthYear } from "@/lib/date-utils";
 
 type ExperienceEntry = CollectionEntry<"experiences">;
 
@@ -35,11 +36,6 @@ interface Props {
 const { class: className } = Astro.props as Props;
 const experiences = await getCollection("experiences");
 
-const dateFormatter = new Intl.DateTimeFormat("en-GB", {
-  month: "long",
-  year: "numeric",
-});
-
 const iconMap = {
   business: BriefcaseIcon,
   code: CodeIcon,
@@ -60,9 +56,9 @@ const positions = await Promise.all(
         Content,
         data: entry.data,
         period: {
-          start: dateFormatter.format(entry.data.startDate),
+          start: formatMonthYear(entry.data.startDate),
           end: entry.data.endDate
-            ? dateFormatter.format(entry.data.endDate)
+            ? formatMonthYear(entry.data.endDate)
             : undefined,
         },
       };

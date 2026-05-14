@@ -3,6 +3,7 @@ import { getEntry, render } from "astro:content";
 import PageHeader from "@/components/page-header.astro";
 import Prose from "@/components/starwind/prose";
 import RootLayout from "@/layouts/root.astro";
+import { formatMonthYear } from "@/lib/date-utils";
 
 const privacyPolicy = await getEntry("pages", "privacy-policy");
 
@@ -13,10 +14,7 @@ if (!privacyPolicy) {
 const { Content } = await render(privacyPolicy);
 const { data } = privacyPolicy;
 const description = data.updatedAt
-  ? `Last updated: ${data.updatedAt.toLocaleDateString("en-GB", {
-      month: "long",
-      year: "numeric",
-    })}`
+  ? `Last updated: ${formatMonthYear(data.updatedAt)}`
   : data.description;
 ---
 

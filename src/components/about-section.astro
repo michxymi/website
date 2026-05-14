@@ -1,4 +1,6 @@
 ---
+import SectionKicker from "@/components/section-kicker.astro";
+
 interface Props {
   class?: string;
   title: string;
@@ -8,10 +10,6 @@ const { class: className, title } = Astro.props;
 ---
 
 <section class={className}>
-  <h2
-    class="mb-4 font-mono font-medium text-muted-foreground text-xs uppercase"
-  >
-    {title}
-  </h2>
+  <SectionKicker class="mb-4">{title}</SectionKicker>
   <slot />
 </section>

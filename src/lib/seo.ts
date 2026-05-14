@@ -13,11 +13,6 @@ export const SITE_CONFIG = {
   },
   locale: "en_GB",
   ogImage: "/opengraph-image",
-  links: {
-    github: "https://github.com/michxymi",
-    twitter: "https://x.com/michxymi",
-    linkedin: "https://www.linkedin.com/in/mxymitoulias/",
-  },
 } as const;
 
 const socialProfileUrls = SOCIAL_LINKS.map((link) => link.url);

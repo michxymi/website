@@ -1,0 +1,40 @@
+---
+import GithubIcon from "@tabler/icons/outline/brand-github.svg";
+import ExternalLinkIcon from "@tabler/icons/outline/external-link.svg";
+import { Button } from "@/components/starwind/button";
+
+interface Props {
+  iconClass?: string;
+  liveUrl?: string | URL;
+  repoUrl?: string | URL;
+}
+
+const { iconClass = "size-4", liveUrl, repoUrl } = Astro.props as Props;
+---
+
+{repoUrl && (
+  <Button
+    class="font-mono text-xs"
+    href={repoUrl}
+    rel="noreferrer"
+    size="sm"
+    target="_blank"
+    variant="outline"
+  >
+    <GithubIcon class={iconClass} />
+    View Code
+  </Button>
+)}
+{liveUrl && (
+  <Button
+    class="font-mono text-xs"
+    href={liveUrl}
+    rel="noreferrer"
+    size="sm"
+    target="_blank"
+    variant="outline"
+  >
+    <ExternalLinkIcon class={iconClass} />
+    Live Site
+  </Button>
+)}

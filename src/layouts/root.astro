@@ -31,10 +31,13 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/starwind/sidebar";
+import { SEO_CONFIG } from "@/lib/seo";
 import { SOCIAL_LINKS } from "@/lib/social-links";
 import type { JsonLdData } from "@/lib/structured-data";
 
-const navMain = [
+const currentPath = Astro.url.pathname;
+
+const SITE_NAVIGATION = [
   {
     title: "About",
     url: "/",
@@ -61,8 +64,6 @@ const navMain = [
     icon: MailIcon,
   },
 ] as const;
-
-const currentPath = Astro.url.pathname;
 
 interface Props {
   canonical?: string;
@@ -116,20 +117,23 @@ const {
                 <div
                   class="grid flex-1 gap-1 leading-tight group-data-[collapsible=icon]:hidden"
                 >
-                  <span class="truncate font-bold">Michael Xymitoulias</span>
-                  <span class="text-sidebar-foreground/70 truncate text-xs"
-                    >Technical Software Manager</span
-                  >
+                  <span class="truncate font-bold">
+                    {SEO_CONFIG.author.name}
+                  </span>
+                  <span class="text-sidebar-foreground/70 truncate text-xs">
+                    Technical Software Manager
+                  </span>
                 </div>
               </div>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
+
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu>
-                {navMain.map((item) => (
+                {SITE_NAVIGATION.map((item) => (
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       href={item.url}
@@ -150,13 +154,16 @@ const {
             <SidebarGroupContent>
               <SidebarMenu>
                 {SOCIAL_LINKS.map((social) => (
-                <SidebarMenuItem>
-                  <SidebarMenuButton href={social.url} tooltip={social.name}>
-                    <social.icon />
-                    <span>{social.name}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      href={social.url}
+                      tooltip={social.name}
+                    >
+                      <social.icon />
+                      <span>{social.name}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

@@ -78,16 +78,24 @@ import TextArea from "@/components/starwind/textarea";
 </Card>
 
 <script>
+  import { toast } from "@/components/starwind/toast";
+
   const contactForm = document.querySelector<HTMLFormElement>(
     "[data-contact-form]"
   );
 
-  const announceResult = (result: "success" | "error") => {
-    contactForm?.dispatchEvent(
-      new CustomEvent(`contact-form:${result}`, {
-        bubbles: true,
-      })
-    );
+  const showSuccessToast = () => {
+    toast.success("Message sent", {
+      description:
+        "Got it. I'll be in touch. Assuming the internet continues to function.",
+    });
+  };
+
+  const showErrorToast = () => {
+    toast.error("Message didn't send", {
+      description:
+        "Something broke. Try again. The irony of a contact form preventing contact is not lost on me.",
+    });
   };
 
   contactForm?.addEventListener("submit", async (event) => {
@@ -100,13 +108,15 @@ import TextArea from "@/components/starwind/textarea";
         headers: { Accept: "application/json" },
       });
 
-      announceResult(response.ok ? "success" : "error");
-
       if (response.ok) {
+        showSuccessToast();
         contactForm.reset();
+        return;
       }
+
+      showErrorToast();
     } catch {
-      announceResult("error");
+      showErrorToast();
     }
   });
 </script>

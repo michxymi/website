@@ -1,7 +1,7 @@
 ---
-import { getCollection } from "astro:content";
 import GithubChart from "@/components/github-chart.astro";
 import PageHeader from "@/components/page-header.astro";
+import SectionKicker from "@/components/section-kicker.astro";
 import {
   Card,
   CardAction,
@@ -9,6 +9,9 @@ import {
   CardHeader,
 } from "@/components/starwind/card";
 import RootLayout from "@/layouts/root.astro";
+import { formatRecentPostDate } from "@/lib/date-utils";
+import { getRecentPosts } from "@/lib/post-utils";
+import { SOCIAL_LINKS } from "@/lib/social-links";
 
 const description =
   "A snapshot of what's happening. Before you commit to reading anything else." as const;
@@ -33,9 +36,12 @@ const currently = [
   { label: "Building", value: "This site" },
 ] as const;
 
-const posts = (await getCollection("posts", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
-  .slice(0, 3);
+const posts = await getRecentPosts(3);
+const githubLink = SOCIAL_LINKS.find((link) => link.name === "Github");
+
+if (!githubLink) {
+  throw new Error("Missing Github social link");
+}
 ---
 
 <RootLayout pageTitle="Now" pageDescription={metaDescription} canonical="/now">
@@ -45,11 +51,7 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
     <div class="grid gap-4 sm:grid-cols-2">
       <Card size="sm" class="h-full bg-transparent">
         <CardHeader>
-          <h2
-            class="font-mono font-medium text-muted-foreground text-xs uppercase"
-          >
-            Uses
-          </h2>
+          <SectionKicker>Uses</SectionKicker>
         </CardHeader>
         <CardContent>
           <div class="grid grid-cols-2 gap-4">
@@ -65,11 +67,7 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
 
       <Card size="sm" class="h-full bg-transparent">
         <CardHeader>
-          <h2
-            class="font-mono font-medium text-muted-foreground text-xs uppercase"
-          >
-            Currently
-          </h2>
+          <SectionKicker>Currently</SectionKicker>
         </CardHeader>
         <CardContent>
           <div class="grid grid-cols-2 gap-4">
@@ -86,19 +84,16 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
 
     <Card size="sm" class="bg-transparent">
       <CardHeader>
-        <h2
-          class="font-mono font-medium text-muted-foreground text-xs uppercase"
-        >
-          GitHub Activity
-        </h2>
+        <SectionKicker>GitHub Activity</SectionKicker>
         <CardAction>
           <a
             class="text-muted-foreground text-xs transition-colors hover:text-foreground"
-            href="https://github.com/michxymi"
+            href={githubLink.url}
             rel="noopener noreferrer"
             target="_blank"
           >
-            @michxymi &rarr;
+            {githubLink.description}
+            &rarr;
           </a>
         </CardAction>
       </CardHeader>
@@ -112,9 +107,7 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
     {posts.length > 0 && (
       <Card class="bg-transparent" size="sm">
         <CardHeader>
-          <h2 class="font-medium font-mono text-muted-foreground text-xs uppercase">
-            Recent Posts
-          </h2>
+          <SectionKicker>Recent Posts</SectionKicker>
         </CardHeader>
         <CardContent>
           <div class="space-y-3">
@@ -136,11 +129,7 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft))
                     class="text-muted-foreground text-xs"
                     datetime={post.data.publishedAt.toISOString()}
                   >
-                    {post.data.publishedAt.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
+                    {formatRecentPostDate(post.data.publishedAt)}
                   </time>
                 </div>
               </a>
