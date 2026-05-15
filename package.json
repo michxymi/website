@@ -34,6 +34,7 @@
   },
   "name": "@michxymi/website",
   "scripts": {
+    "analyze": "node scripts/analyze-bundle.mjs",
     "dev": "astro dev",
     "build": "pnpm build:og && astro build",
     "build:og": "node scripts/opengraph/generate.ts",

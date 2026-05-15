@@ -5,23 +5,17 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
 import { visualizer } from "rollup-plugin-visualizer";
 
-const shouldAnalyze = process.env.ANALYZE === "true";
-
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [
       tailwindcss(),
-      ...(shouldAnalyze
-        ? [
-            visualizer({
-              emitFile: true,
-              filename: "stats.html",
-              gzipSize: true,
-              brotliSize: true,
-            }),
-          ]
-        : []),
+      visualizer({
+        filename: "bundle-analysis.json",
+        template: "raw-data",
+        gzipSize: true,
+        brotliSize: true,
+      }),
     ],
   },
 

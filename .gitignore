@@ -29,5 +29,8 @@ pnpm-debug.log*
 # vscode settings folder
 .vscode/
 
+# bundle analysis
+bundle-analysis.json
+
 # cloudflare
 .wrangler
