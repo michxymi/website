@@ -4,6 +4,7 @@ import BookOpenIcon from "@tabler/icons/outline/book.svg";
 import DownloadIcon from "@tabler/icons/outline/download.svg";
 import FolderIcon from "@tabler/icons/outline/folder.svg";
 import MailIcon from "@tabler/icons/outline/mail.svg";
+import RssIcon from "@tabler/icons/outline/rss.svg";
 import UserIcon from "@tabler/icons/outline/user.svg";
 import {
   Avatar,
@@ -158,6 +159,20 @@ const {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Feed</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton href="/feed.xml" tooltip="RSS">
+                  <RssIcon />
+                  <span>RSS</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
