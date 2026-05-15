@@ -29,11 +29,11 @@ function div(style: Style | null, ...children: Children[]): VNode {
   return h("div", style ? { style } : null, ...children);
 }
 
-const BG = "#0a0a0a";
-const FG = "#fafafa";
-const MUTED = "#a1a1aa";
-const SUBTLE = "#737373";
-const BORDER = "#27272a";
+const BG = "#0a0a0a" as const;
+const FG = "#fafafa" as const;
+const MUTED = "#a1a1aa" as const;
+const SUBTLE = "#737373" as const;
+const BORDER = "#27272a" as const;
 
 interface CardProps {
   footerLeft?: string;
@@ -55,13 +55,13 @@ const labelStyle: Style = {
   fontFamily: "JetBrains Mono",
   fontWeight: 500,
   letterSpacing: "0.15em",
-};
+} as const;
 
 const footerStyle: Style = {
   color: SUBTLE,
   fontSize: 18,
   fontFamily: "JetBrains Mono",
-};
+} as const;
 
 const outerStyle: Style = {
   display: "flex",
@@ -70,7 +70,7 @@ const outerStyle: Style = {
   height: 630,
   background: BG,
   padding: 64,
-};
+} as const;
 
 const centerStyle: Style = {
   display: "flex",
@@ -78,7 +78,7 @@ const centerStyle: Style = {
   flex: 1,
   justifyContent: "center",
   gap: 24,
-};
+} as const;
 
 const metaStyle: Style = {
   display: "flex",
@@ -86,26 +86,26 @@ const metaStyle: Style = {
   color: SUBTLE,
   fontSize: 14,
   fontFamily: "JetBrains Mono",
-};
+} as const;
 
 const hrStyle: Style = {
   height: 1,
   background: BORDER,
   width: "100%",
-};
+} as const;
 
 const titleStyle: Style = {
   color: FG,
   fontWeight: 600,
   lineHeight: 1.1,
   fontFamily: "IBM Plex Sans",
-};
+} as const;
 
 const subtitleStyle: Style = {
   color: MUTED,
   lineHeight: 1.4,
   fontFamily: "IBM Plex Sans",
-};
+} as const;
 
 function FlexRow(style: Style | null, ...children: Children[]): VNode {
   return h(

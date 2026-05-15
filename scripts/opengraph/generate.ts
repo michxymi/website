@@ -17,8 +17,8 @@ const PUBLIC_DIR = resolve("public");
 const POSTS_DIR = join(CONTENT_DIR, "posts");
 const PROJECTS_DIR = join(CONTENT_DIR, "projects");
 
-const WIDTH = 1200;
-const HEIGHT = 630;
+const WIDTH = 1200 as const;
+const HEIGHT = 630 as const;
 const MD_EXT = /\.md$/;
 
 interface PostData {
