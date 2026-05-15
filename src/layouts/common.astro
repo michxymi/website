@@ -1,0 +1,45 @@
+---
+import Head from "@/components/seo/head.astro";
+import "@/styles/starwind.css";
+import type { JsonLdData } from "@/lib/seo";
+
+interface Props {
+  bodyClass?: string;
+  canonical?: string;
+  pageDescription?: string;
+  pageImage?: string;
+  pageImageAlt?: string;
+  pageRobots?: string;
+  pageTitle?: string;
+  pageType?: "article" | "profile" | "website";
+  structuredData?: JsonLdData | JsonLdData[];
+}
+
+const {
+  bodyClass,
+  canonical,
+  pageDescription,
+  pageImage,
+  pageImageAlt,
+  pageRobots,
+  pageTitle,
+  pageType,
+  structuredData,
+} = Astro.props as Props;
+---
+
+<html lang="en">
+  <Head
+    canonical={canonical}
+    description={pageDescription}
+    image={pageImage}
+    imageAlt={pageImageAlt}
+    robots={pageRobots}
+    structuredData={structuredData}
+    title={pageTitle}
+    type={pageType}
+  />
+  <body class:list={["antialiased", bodyClass]}>
+    <slot />
+  </body>
+</html>

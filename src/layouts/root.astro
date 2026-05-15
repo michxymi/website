@@ -5,10 +5,6 @@ import DownloadIcon from "@tabler/icons/outline/download.svg";
 import FolderIcon from "@tabler/icons/outline/folder.svg";
 import MailIcon from "@tabler/icons/outline/mail.svg";
 import UserIcon from "@tabler/icons/outline/user.svg";
-import Head from "@/components/seo/head.astro";
-import { Toaster } from "@/components/starwind/toast";
-import ThemeSwitcher from "@/components/theme-switcher.astro";
-import "@/styles/starwind.css";
 import {
   Avatar,
   AvatarFallback,
@@ -30,6 +26,9 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/starwind/sidebar";
+import { Toaster } from "@/components/starwind/toast";
+import ThemeSwitcher from "@/components/theme-switcher.astro";
+import CommonLayout from "@/layouts/common.astro";
 import type { JsonLdData } from "@/lib/seo";
 import { SEO_CONFIG } from "@/lib/seo";
 import { SOCIAL_LINKS } from "@/lib/social";
@@ -88,139 +87,133 @@ const {
 } = Astro.props as Props;
 ---
 
-<html lang="en">
-  <Head
-    canonical={canonical}
-    description={pageDescription}
-    image={pageImage}
-    imageAlt={pageImageAlt}
-    robots={pageRobots}
-    structuredData={structuredData}
-    title={pageTitle}
-    type={pageType}
-  />
-  <body class="antialiased">
-    <SidebarProvider>
-      <Sidebar collapsible="icon">
-        <SidebarHeader>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <div
-                class="flex items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
-              >
-                <Avatar
-                  class="size-12 shrink-0 rounded-full group-data-[collapsible=icon]:size-8"
-                >
-                  <AvatarImage src="/avatar.webp" alt="michxymi" />
-                  <AvatarFallback class="rounded-full">MX</AvatarFallback>
-                </Avatar>
-                <div
-                  class="grid flex-1 gap-1 leading-tight group-data-[collapsible=icon]:hidden"
-                >
-                  <span class="truncate font-bold">
-                    {SEO_CONFIG.author.name}
-                  </span>
-                  <span class="text-sidebar-foreground/70 truncate text-xs">
-                    Technical Software Manager
-                  </span>
-                </div>
-              </div>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarHeader>
-
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {SITE_NAVIGATION.map((item) => (
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      href={item.url}
-                      isActive={currentPath === item.url}
-                      tooltip={item.title}
-                    >
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          <SidebarGroup>
-            <SidebarGroupLabel>Social</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {SOCIAL_LINKS.map((social) => (
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      href={social.url}
-                      tooltip={social.name}
-                    >
-                      <social.icon />
-                      <span>{social.name}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-
-        <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                download
-                tooltip="Download CV"
-                href="/Michael_Xymitoulias_CV.pdf"
-              >
-                <DownloadIcon />
-                <span> Download CV </span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
-        <SidebarRail />
-      </Sidebar>
-
-      <main class="bg-background flex flex-1 flex-col">
-        <header class="flex h-12 shrink-0 items-center justify-end gap-2 px-4">
-          <div class="inline-flex items-center gap-3">
-            <SidebarTrigger
-              size="sm"
-              class="text-muted-foreground hover:bg-transparent hover:text-foreground [&_svg]:size-4"
-            />
-            <Separator orientation="vertical" class="h-4" />
-            <ThemeSwitcher />
-          </div>
-        </header>
-
-        <div class="flex flex-1 flex-col gap-4 p-4 pt-0 md:px-8 lg:px-12">
-          <div class="mx-auto mb-12 flex w-full max-w-4xl flex-1 flex-col">
-            <slot />
-          </div>
-          <footer
-            class="mt-auto border-border border-t py-6 text-center text-muted-foreground text-xs"
-          >
+<CommonLayout
+  canonical={canonical}
+  pageDescription={pageDescription}
+  pageImage={pageImage}
+  pageImageAlt={pageImageAlt}
+  pageRobots={pageRobots}
+  pageTitle={pageTitle}
+  pageType={pageType}
+  structuredData={structuredData}
+>
+  <SidebarProvider>
+    <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
             <div
-              class="flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-4"
+              class="flex items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
             >
-              <a
-                class="transition-colors hover:text-foreground"
-                href="/privacy-policy"
+              <Avatar
+                class="size-12 shrink-0 rounded-full group-data-[collapsible=icon]:size-8"
               >
-                Privacy Policy
-              </a>
-              <span class="hidden sm:inline">·</span>
-              <span>© {currentYear} Michael Xymitoulias</span>
+                <AvatarImage src="/avatar.webp" alt="michxymi" />
+                <AvatarFallback class="rounded-full">MX</AvatarFallback>
+              </Avatar>
+              <div
+                class="grid flex-1 gap-1 leading-tight group-data-[collapsible=icon]:hidden"
+              >
+                <span class="truncate font-bold">
+                  {SEO_CONFIG.author.name}
+                </span>
+                <span class="text-sidebar-foreground/70 truncate text-xs">
+                  Technical Software Manager
+                </span>
+              </div>
             </div>
-          </footer>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {SITE_NAVIGATION.map((item) => (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    href={item.url}
+                    isActive={currentPath === item.url}
+                    tooltip={item.title}
+                  >
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Social</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {SOCIAL_LINKS.map((social) => (
+                <SidebarMenuItem>
+                  <SidebarMenuButton href={social.url} tooltip={social.name}>
+                    <social.icon />
+                    <span>{social.name}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              download
+              tooltip="Download CV"
+              href="/Michael_Xymitoulias_CV.pdf"
+            >
+              <DownloadIcon />
+              <span> Download CV </span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
+
+    <main class="bg-background flex flex-1 flex-col">
+      <header class="flex h-12 shrink-0 items-center justify-end gap-2 px-4">
+        <div class="inline-flex items-center gap-3">
+          <SidebarTrigger
+            size="sm"
+            class="text-muted-foreground hover:bg-transparent hover:text-foreground [&_svg]:size-4"
+          />
+          <Separator orientation="vertical" class="h-4" />
+          <ThemeSwitcher />
         </div>
-      </main>
-    </SidebarProvider>
-    <Toaster position="bottom-right" />
-  </body>
-</html>
+      </header>
+
+      <div class="flex flex-1 flex-col gap-4 p-4 pt-0 md:px-8 lg:px-12">
+        <div class="mx-auto mb-12 flex w-full max-w-4xl flex-1 flex-col">
+          <slot />
+        </div>
+        <footer
+          class="mt-auto border-border border-t py-6 text-center text-muted-foreground text-xs"
+        >
+          <div
+            class="flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-4"
+          >
+            <a
+              class="transition-colors hover:text-foreground"
+              href="/privacy-policy"
+            >
+              Privacy Policy
+            </a>
+            <span class="hidden sm:inline">·</span>
+            <span>© {currentYear} Michael Xymitoulias</span>
+          </div>
+        </footer>
+      </div>
+    </main>
+  </SidebarProvider>
+  <Toaster position="bottom-right" />
+</CommonLayout>

@@ -1,0 +1,45 @@
+---
+import Button from "@/components/starwind/button";
+import CommonLayout from "@/layouts/common.astro";
+import type { JsonLdData } from "@/lib/seo";
+
+interface Props {
+  canonical?: string;
+  pageDescription?: string;
+  pageImage?: string;
+  pageImageAlt?: string;
+  pageRobots?: string;
+  pageTitle?: string;
+  pageType?: "article" | "profile" | "website";
+  structuredData?: JsonLdData | JsonLdData[];
+}
+
+const {
+  canonical,
+  pageDescription,
+  pageImage,
+  pageImageAlt,
+  pageRobots,
+  pageTitle,
+  pageType,
+  structuredData,
+} = Astro.props as Props;
+---
+
+<CommonLayout
+  canonical={canonical}
+  pageDescription={pageDescription}
+  pageImage={pageImage}
+  pageImageAlt={pageImageAlt}
+  pageRobots={pageRobots}
+  pageTitle={pageTitle}
+  pageType={pageType}
+  structuredData={structuredData}
+>
+  <main class="grid min-h-dvh place-items-center px-6 py-12">
+    <div class="w-full max-w-md text-center">
+      <slot />
+      <Button href="/"> Go home </Button>
+    </div>
+  </main>
+</CommonLayout>
