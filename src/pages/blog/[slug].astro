@@ -28,7 +28,7 @@ const structuredData = getBlogPostingStructuredData(post);
 <RootLayout
   pageTitle={data.title}
   pageDescription={data.description}
-  pageImage={data.coverImage}
+  pageImage={`/social-cards/posts/${post.id}.png`}
   pageImageAlt={data.title}
   pageType="article"
   canonical={`/blog/${post.id}`}

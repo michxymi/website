@@ -15,7 +15,7 @@ export const SITE_CONFIG = {
     worksFor: "Oxford Nanopore Technologies",
   },
   locale: "en_GB",
-  ogImage: "/opengraph-image",
+  ogImage: "/opengraph-image.png",
 } as const;
 
 const socialProfileUrls = SOCIAL_LINKS.map((link) => link.url);
