@@ -34,3 +34,5 @@ bundle-analysis.json
 
 # cloudflare
 .wrangler
+
+.png
