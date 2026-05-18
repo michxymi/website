@@ -34,9 +34,13 @@ I'm not going to pretend PNPM is a silver bullet. It's a package manager, not a 
 
 A quick note: most of what I'm about to describe requires PNPM 10. Earlier versions don't have these capabilities. If you're on v9 or below, upgrade first.
 
+<div class="not-sw-prose">
+
 ```bash
 npm install -g pnpm@latest-10
 ```
+
+</div>
 
 Now, the good stuff:
 
@@ -59,22 +63,30 @@ Don't run `pnpm install` on an existing project. Run `pnpm import` first. This r
 
 Then nuke the old stuff:
 
+<div class="not-sw-prose">
+
 ```bash
 git rm --cached package-lock.json && \
 rm -rf node_modules package-lock.json && \
 echo "\npackage-lock.json\n" >> .gitignore
 ```
 
+</div>
+
 ## The Configuration That Actually Matters
 
 Create a `pnpm-workspace.yaml`:
 
-```yaml
+<div class="not-sw-prose">
+
+```yaml title="pnpm-workspace.yaml"
 minimumReleaseAge: 10080
 trustPolicy: no-downgrade
 saveExact: true
 engineStrict: true
 ```
+
+</div>
 
 That's your entire security configuration in one file. No more scattering settings across `.npmrc`, `package.json`, and whatever else. PNPM lets you put all registry and behavior settings in `pnpm-workspace.yaml` instead of `.npmrc` - which means your security posture is version-controlled and travels with the repo automatically.
 
@@ -91,7 +103,9 @@ Your teammates will forget. They'll run `npm install` out of muscle memory and c
 
 Add to your `package.json`:
 
-```json
+<div class="not-sw-prose">
+
+```json title="package.json"
 {
   "packageManager": "pnpm@10.23.0",
   "scripts": {
@@ -105,6 +119,8 @@ Add to your `package.json`:
 }
 ```
 
+</div>
+
 The `preinstall` script will error out if anyone tries to use npm or yarn. The `engines` field is technically advisory, but with `engine-strict=true` in your `.npmrc`, it becomes mandatory.
 
 Now run `pnpm install`.
@@ -113,9 +129,13 @@ Now run `pnpm install`.
 
 You'll probably see a message about ignored build scripts. Good. That's the point.
 
+<div class="not-sw-prose ec-no-copy">
+
 ```
 Ignored build scripts: electron, sqlite3, node-sass
 ```
+
+</div>
 
 Review each one. Most packages don't actually need their postinstall scripts to function. For the ones that do - anything using `node-gyp` for native bindings, typically - run `pnpm approve-builds` and whitelist them explicitly.
 
@@ -137,17 +157,23 @@ Your CI runners are the real target here. They have secrets. They have network a
 
 Use `--frozen-lockfile` in CI. Always. This ensures you're installing exactly what's in your lockfile, not whatever the registry decides is close enough.
 
-```yaml
+<div class="not-sw-prose">
+
+```yaml title="gitlab-ci.yml"
 script:
   - pnpm install --frozen-lockfile
   - pnpm test
 ```
 
+</div>
+
 Cache your pnpm store between runs. Your builds will be faster and you'll stop hammering the registry.
 
 Here's what that looks like in `gitlab-ci.yml` (or whatever CI flavor you're running)
 
-```yaml
+<div class="not-sw-prose">
+
+```yaml title="gitlab-ci.yml"
 default:
   image: node:24
   before_script:
@@ -159,6 +185,8 @@ default:
     paths:
       - .pnpm-store/
 ```
+
+</div>
 
 ## The Part Where I Tell You What to Do
 

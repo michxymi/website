@@ -36,3 +36,5 @@ bundle-analysis.json
 .wrangler
 
 *.png
+
+.pnpm-store/

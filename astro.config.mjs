@@ -3,6 +3,8 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
+
+import expressiveCode from "astro-expressive-code";
 import { visualizer } from "rollup-plugin-visualizer";
 
 // https://astro.build/config
@@ -45,6 +47,13 @@ export default defineConfig({
     },
   ],
 
-  integrations: [sitemap()],
+  integrations: [
+    sitemap(),
+    expressiveCode({
+      themes: ["min-light", "min-dark"],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) => (theme.type === "dark" ? ".dark" : false),
+    }),
+  ],
   adapter: cloudflare(),
 });

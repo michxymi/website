@@ -36,7 +36,7 @@ const { class: className } = Astro.props as Props;
 <script>
   import type { ToggleChangeEvent } from "@/components/starwind/toggle";
 
-  const themeToggleSelector = "[data-theme-toggle]";
+  const themeToggleSelector = "[data-theme-toggle]" as const;
 
   const syncToggleState = (toggle: HTMLButtonElement) => {
     const isDark = document.documentElement.classList.contains("dark");

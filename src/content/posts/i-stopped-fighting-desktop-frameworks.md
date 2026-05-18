@@ -36,7 +36,9 @@ None of the major frameworks check all those boxes. So I stopped looking at majo
 
 You create a class with your API methods. You pass it to `create_window`. Your frontend can now call those methods. No three-layer function definitions. No Rust. No commercial license.
 
-```python
+<div class="not-sw-prose">
+
+```python title="main.py"
 class API:
     def get_data(self):
         return {"message": "This just works"}
@@ -44,6 +46,8 @@ class API:
 webview.create_window("My App", "index.html", js_api=API())
 webview.start()
 ```
+
+</div>
 
 For development, you point Pywebview at your Vite dev server. Hot reloading works. React DevTools work. Everything you're used to from web development... still works.
 
@@ -55,7 +59,9 @@ You end up with a monorepo. Backend folder for Python. Frontend folder for React
 
 This is where [just](https://just.systems/) comes in. Think of it as Makefiles that don't make you want to quit programming.
 
-```makefile
+<div class="not-sw-prose">
+
+```just title="justfile"
 dev:
     npx concurrently --kill-others -s first \
         "cd frontend && pnpm run dev" \
@@ -67,6 +73,8 @@ uv ARG:
 pnpm ARG:
     cd frontend && pnpm {{ARG}}
 ```
+
+</div>
 
 `just dev` starts both the Vite server and the Pywebview app. `concurrently` keeps them in sync - if one dies, the other dies too. `wait-on` prevents a race condition where Pywebview tries to load the frontend before Vite is ready.
 
