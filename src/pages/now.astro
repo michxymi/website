@@ -20,20 +20,13 @@ const metaDescription =
 
 const uses = [
   { label: "Editor", value: "VSCode" },
-  { label: "AI", value: "Opencode" },
+  { label: "AI", value: "Codex" },
   { label: "Terminal", value: "Ghostty" },
+  { label: "Browser", value: "Google Chrome" },
+  { label: "Theme", value: "Dracula Pro" },
+  { label: "Infra", value: "Cloudflare" },
+  { label: "Sketching", value: "Excalidraw" },
   { label: "Machine", value: 'MacBook Pro 16"' },
-] as const;
-
-const currently = [
-  {
-    label: "Reading",
-    value:
-      "Team Topologies: Organizing Business and Technology Teams for Fast Flow",
-  },
-  { label: "Listening", value: "The Diary of A CEO - Chris Koerner" },
-  { label: "Exploring", value: "Agent Skills" },
-  { label: "Building", value: "This site" },
 ] as const;
 
 const posts = await getRecentPosts(3);
@@ -47,40 +40,22 @@ if (!githubLink) {
 <RootLayout pageTitle="Now" pageDescription={metaDescription} canonical="/now">
   <PageHeader description={description} title="Now" />
 
-  <div class="space-y-4">
-    <div class="grid gap-4 sm:grid-cols-2">
-      <Card size="sm" class="h-full bg-transparent">
-        <CardHeader>
-          <SectionKicker>Uses</SectionKicker>
-        </CardHeader>
-        <CardContent>
-          <div class="grid grid-cols-2 gap-4">
-            {uses.map(({ label, value }) => (
+  <div class="space-y-12">
+    <Card size="sm" class="bg-transparent">
+      <CardHeader>
+        <SectionKicker>Uses</SectionKicker>
+      </CardHeader>
+      <CardContent>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {uses.map(({ label, value }) => (
               <div>
                 <div class="text-muted-foreground text-xs">{label}</div>
                 <div class="font-display text-sm">{value}</div>
               </div>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card size="sm" class="h-full bg-transparent">
-        <CardHeader>
-          <SectionKicker>Currently</SectionKicker>
-        </CardHeader>
-        <CardContent>
-          <div class="grid grid-cols-2 gap-4">
-            {currently.map(({ label, value }) => (
-              <div>
-                <div class="text-muted-foreground text-xs">{label}</div>
-                <div class="font-display text-sm leading-snug">{value}</div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </CardContent>
+    </Card>
 
     <Card size="sm" class="bg-transparent">
       <CardHeader>
@@ -110,7 +85,7 @@ if (!githubLink) {
           <SectionKicker>Recent Posts</SectionKicker>
         </CardHeader>
         <CardContent>
-          <div class="space-y-3">
+          <div class="space-y-4">
             {posts.map((post, index) => (
               <a class="group flex items-start gap-3" href={`/blog/${post.id}`}>
                 <span
