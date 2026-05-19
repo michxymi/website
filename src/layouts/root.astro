@@ -86,6 +86,23 @@ const {
   pageType,
   structuredData,
 } = Astro.props as Props;
+
+const WEBMCP_DATA = JSON.stringify({
+  author: {
+    name: SEO_CONFIG.author.name,
+    jobTitle: SEO_CONFIG.author.jobTitle,
+    worksFor: SEO_CONFIG.author.worksFor,
+  },
+  navigation: SITE_NAVIGATION.map((item) => ({
+    title: item.title,
+    url: item.url,
+  })),
+  socialLinks: SOCIAL_LINKS.map((item) => ({
+    name: item.name,
+    url: item.url,
+  })),
+  cvUrl: "/Michael_Xymitoulias_CV.pdf",
+});
 ---
 
 <CommonLayout
@@ -98,6 +115,19 @@ const {
   pageType={pageType}
   structuredData={structuredData}
 >
+  <script
+    id="webmcp-data"
+    type="application/json"
+    is:inline
+    set:html={WEBMCP_DATA}
+  />
+
+  <script>
+    import { registerWebMCPTools } from "@/lib/webmcp";
+
+    registerWebMCPTools();
+  </script>
+
   <SidebarProvider>
     <Sidebar collapsible="icon">
       <SidebarHeader>

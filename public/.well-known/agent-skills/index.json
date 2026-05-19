@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "link-headers",
+      "type": "skill-md",
+      "description": "Link response headers for agent discovery per RFC 8288.",
+      "url": "/.well-known/agent-skills/link-headers/SKILL.md",
+      "digest": "sha256:052208c773f95464e4793e19e3635bfdab318643271700ea9542dabe87b03c96"
+    },
+    {
+      "name": "markdown-negotiation",
+      "type": "skill-md",
+      "description": "Content negotiation returning text/markdown for Accept: text/markdown requests.",
+      "url": "/.well-known/agent-skills/markdown-negotiation/SKILL.md",
+      "digest": "sha256:d4e583ec52a1f3a0c11217197f03012512e728fd88af9091ddea468dfddd0ce0"
+    },
+    {
+      "name": "api-catalog",
+      "type": "skill-md",
+      "description": "API catalog in linkset format for automated API discovery per RFC 9727.",
+      "url": "/.well-known/agent-skills/api-catalog/SKILL.md",
+      "digest": "sha256:12e6d45c26d6c78e4df3a7229bfd9dd704a85c96c2fcf90ec095a03f6af27275"
+    },
+    {
+      "name": "oauth-discovery",
+      "type": "skill-md",
+      "description": "OAuth 2.0 and OpenID Connect discovery metadata for agent authentication.",
+      "url": "/.well-known/agent-skills/oauth-discovery/SKILL.md",
+      "digest": "sha256:2e972d633630f8111af13dbe3c6dd51b790bcede219e45a9d9cd86ef503ddd76"
+    },
+    {
+      "name": "oauth-protected-resource",
+      "type": "skill-md",
+      "description": "OAuth Protected Resource metadata per RFC 9728 for token discovery.",
+      "url": "/.well-known/agent-skills/oauth-protected-resource/SKILL.md",
+      "digest": "sha256:a089560fb159e0c5b86fe3b0d8010d7769e1be420e261c23c632b07958010b1b"
+    },
+    {
+      "name": "mcp-server-card",
+      "type": "skill-md",
+      "description": "MCP Server Card for Model Context Protocol agent discovery.",
+      "url": "/.well-known/agent-skills/mcp-server-card/SKILL.md",
+      "digest": "sha256:1b6690cbd7f1445cd6e3120a1cf0fdfdeff47b36fd11f79d1785ae6a53241baa"
+    },
+    {
+      "name": "webmcp",
+      "type": "skill-md",
+      "description": "WebMCP tools exposing site actions to AI agents via the browser.",
+      "url": "/.well-known/agent-skills/webmcp/SKILL.md",
+      "digest": "sha256:3ada398e890ba1d669a103dbea1b27197077e4943a88199bfd84ddb31094e15d"
+    },
+    {
+      "name": "agent-skills",
+      "type": "skill-md",
+      "description": "Agent Skills discovery index at /.well-known/agent-skills/index.json per the Agent Skills Discovery RFC v0.2.0.",
+      "url": "/.well-known/agent-skills/agent-skills/SKILL.md",
+      "digest": "sha256:e2e702a585bbb9f803ae246c26eb315e9ca1130455c114f94b812b5eef1bc9de"
+    }
+  ]
+}
