@@ -17,6 +17,13 @@ if (!about) {
 const { Content } = await render(about);
 const metaDescription =
   "Michael Xymitoulias is a software engineer and engineering manager building developer tools, React applications, Python tooling, and productive software teams." as const;
+
+const LINK_HEADERS = [
+  '</feed.xml>; rel="alternate"; type="application/rss+xml"',
+  '</blog>; rel="collection"',
+] as const;
+
+Astro.response.headers.set("Link", LINK_HEADERS.join(", "));
 ---
 
 <RootLayout pageTitle="About" pageDescription={metaDescription} canonical="/">
