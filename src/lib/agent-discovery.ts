@@ -12,11 +12,7 @@ export const HOMEPAGE_DISCOVERY_LINKS = [
   '</blog>; rel="collection"',
 ] as const;
 
-export function absoluteUrl(path: string): string {
-  return new URL(path, SITE_ORIGIN).toString();
-}
-
-export function absoluteUrlForOrigin(path: string, origin: string): string {
+export function absoluteUrl(path: string, origin = SITE_ORIGIN): string {
   return new URL(path, origin).toString();
 }
 

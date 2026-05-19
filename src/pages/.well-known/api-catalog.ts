@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { absoluteUrlForOrigin } from "@/lib/agent-discovery";
+import { absoluteUrl } from "@/lib/agent-discovery";
 
 export const prerender = false;
 
@@ -8,16 +8,16 @@ export const GET: APIRoute = ({ url }) => {
   const catalog = {
     linkset: [
       {
-        anchor: absoluteUrlForOrigin("/api/health", origin),
+        anchor: absoluteUrl("/api/health", origin),
         "service-desc": [
           {
-            href: absoluteUrlForOrigin("/openapi.json", origin),
+            href: absoluteUrl("/openapi.json", origin),
             type: "application/vnd.oai.openapi+json",
           },
         ],
         status: [
           {
-            href: absoluteUrlForOrigin("/api/health", origin),
+            href: absoluteUrl("/api/health", origin),
             type: "application/health+json",
           },
         ],
@@ -29,10 +29,7 @@ export const GET: APIRoute = ({ url }) => {
         ],
         "service-meta": [
           {
-            href: absoluteUrlForOrigin(
-              "/.well-known/oauth-protected-resource",
-              origin
-            ),
+            href: absoluteUrl("/.well-known/oauth-protected-resource", origin),
             type: "application/json",
           },
         ],

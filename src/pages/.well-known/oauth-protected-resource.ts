@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { absoluteUrlForOrigin } from "@/lib/agent-discovery";
+import { absoluteUrl } from "@/lib/agent-discovery";
 import { SEO_CONFIG } from "@/lib/seo";
 
 export const prerender = false;
@@ -12,8 +12,8 @@ export const GET: APIRoute = ({ url }) => {
     scopes_supported: ["site:read"],
     bearer_methods_supported: ["header"],
     resource_name: `${SEO_CONFIG.name} Website API`,
-    resource_documentation: absoluteUrlForOrigin("/openapi.json", origin),
-    resource_policy_uri: absoluteUrlForOrigin("/privacy-policy", origin),
+    resource_documentation: absoluteUrl("/openapi.json", origin),
+    resource_policy_uri: absoluteUrl("/privacy-policy", origin),
   };
 
   return new Response(JSON.stringify(metadata, null, 2), {
