@@ -1,25 +1,64 @@
 import { defineMiddleware } from "astro/middleware";
+import {
+  addHomepageDiscoveryHeaders,
+  addVaryHeader,
+} from "@/lib/agent-discovery";
 import { htmlToMarkdown } from "@/lib/markdown";
+
+const WHITESPACE_RE = /\s+/;
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const accept = context.request.headers.get("accept") ?? "";
 
-  if (accept.includes("text/markdown")) {
+  if (acceptsMarkdown(accept)) {
     const response = await next();
+    const headers = new Headers(response.headers);
+    addHomepageDiscoveryHeaders(context.url, headers);
+
     const contentType = response.headers.get("content-type") ?? "";
     if (!contentType.includes("text/html")) {
-      return response;
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
     }
+
     const html = await response.text();
     const markdown = htmlToMarkdown(html);
+    headers.set("Content-Type", "text/markdown; charset=utf-8");
+    headers.set("x-markdown-tokens", estimateMarkdownTokens(markdown));
+    headers.delete("Content-Length");
+    addVaryHeader(headers, "Accept");
+
     return new Response(markdown, {
       status: response.status,
       statusText: response.statusText,
-      headers: {
-        "Content-Type": "text/markdown",
-      },
+      headers,
     });
   }
 
-  return next();
+  const response = await next();
+  addHomepageDiscoveryHeaders(context.url, response.headers);
+  return response;
 });
+
+function acceptsMarkdown(accept: string): boolean {
+  return accept.split(",").some((entry) => {
+    const [mediaType, ...params] = entry.split(";").map((part) => part.trim());
+    if (mediaType.toLowerCase() !== "text/markdown") {
+      return false;
+    }
+
+    const q = params
+      .find((param) => param.toLowerCase().startsWith("q="))
+      ?.slice(2);
+
+    return q !== "0" && q !== "0.0" && q !== "0.00";
+  });
+}
+
+function estimateMarkdownTokens(markdown: string): string {
+  const words = markdown.trim().split(WHITESPACE_RE).filter(Boolean).length;
+  return String(Math.ceil(words * 1.33));
+}

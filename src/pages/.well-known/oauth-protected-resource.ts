@@ -1,26 +1,21 @@
 import type { APIRoute } from "astro";
+import { absoluteUrl, SITE_ORIGIN } from "@/lib/agent-discovery";
+import { SEO_CONFIG } from "@/lib/seo";
 
-const TRAILING_SLASH_RE = /\/$/;
-
-export const GET: APIRoute = ({ site }) => {
-  const baseUrl = (site?.href ?? "https://michxymi.com").replace(
-    TRAILING_SLASH_RE,
-    ""
-  );
-
+export const GET: APIRoute = () => {
   const metadata = {
-    resource: baseUrl,
-    authorization_servers: [
-      `${baseUrl}/.well-known/oauth-authorization-server`,
-      `${baseUrl}/.well-known/openid-configuration`,
-    ],
-    scopes_supported: ["openid", "profile", "email", "api:read"],
+    resource: SITE_ORIGIN,
+    authorization_servers: [SITE_ORIGIN],
+    scopes_supported: ["site:read"],
+    bearer_methods_supported: ["header"],
+    resource_name: `${SEO_CONFIG.name} Website API`,
+    resource_documentation: absoluteUrl("/openapi.json"),
+    resource_policy_uri: absoluteUrl("/privacy-policy"),
   };
 
   return new Response(JSON.stringify(metadata, null, 2), {
-    status: 200,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
   });
 };
