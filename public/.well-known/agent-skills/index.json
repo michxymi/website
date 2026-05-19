@@ -13,7 +13,7 @@
       "type": "skill-md",
       "description": "Content negotiation returning text/markdown for Accept: text/markdown requests.",
       "url": "/.well-known/agent-skills/markdown-negotiation/SKILL.md",
-      "digest": "sha256:d4e583ec52a1f3a0c11217197f03012512e728fd88af9091ddea468dfddd0ce0"
+      "digest": "sha256:89b39aa36848206486afb0802b67fdcbaf4db253aca8bf68ea5eb15253861b32"
     },
     {
       "name": "api-catalog",

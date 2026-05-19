@@ -1,5 +1,7 @@
 const PRE_LANG_RE = /class="[^"]*(?:language-|lang-)(\w+)[^"]*"/i;
 const LEADING_NEWLINES_RE = /^\n+/;
+const HTML_TAG_RE = /<(?:"[^"]*"|'[^']*'|[^'">])*>/g;
+const MAIN_RE = /<main(?:\s[^>]*)?>([\s\S]*?)<\/main>/i;
 
 export function htmlToMarkdown(html: string): string {
   let text = html;
@@ -7,7 +9,14 @@ export function htmlToMarkdown(html: string): string {
   text = text.replace(/<head[\s\S]*?<\/head>/gi, "");
   text = text.replace(/<script[\s\S]*?<\/script>/gi, "");
   text = text.replace(/<style[\s\S]*?<\/style>/gi, "");
+
+  const main = text.match(MAIN_RE);
+  if (main?.[1]) {
+    text = main[1];
+  }
+
   text = text.replace(/<nav[\s\S]*?<\/nav>/gi, "");
+  text = text.replace(/<aside[\s\S]*?<\/aside>/gi, "");
   text = text.replace(/<footer[\s\S]*?<\/footer>/gi, "");
 
   text = text.replace(/<h1[^>]*>(.*?)<\/h1>/gi, "\n# $1\n");
@@ -84,9 +93,11 @@ export function htmlToMarkdown(html: string): string {
 
   text = text.replace(/<p[^>]*>([\s\S]*?)<\/p>/gi, "\n$1\n");
   text = text.replace(/<br\s*\/?>/gi, "\n");
-  text = text.replace(/<div[^>]*>|<\/div>/gi, "");
-  text = text.replace(/<span[^>]*>|<\/span>/gi, "");
-  text = text.replace(/<header[^>]*>[\s\S]*?<\/header>/gi, "");
+  text = text.replace(
+    /<header(?:"[^"]*"|'[^']*'|[^'">])*>[\s\S]*?<\/header>/gi,
+    ""
+  );
+  text = text.replace(/<\/?(?:div|span)(?:"[^"]*"|'[^']*'|[^'">])*>/gi, "");
 
   text = stripTags(text);
 
@@ -105,5 +116,5 @@ export function htmlToMarkdown(html: string): string {
 }
 
 function stripTags(text: string): string {
-  return text.replace(/<[^>]*>/g, "");
+  return text.replace(HTML_TAG_RE, "");
 }

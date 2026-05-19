@@ -16,6 +16,10 @@ export function absoluteUrl(path: string): string {
   return new URL(path, SITE_ORIGIN).toString();
 }
 
+export function absoluteUrlForOrigin(path: string, origin: string): string {
+  return new URL(path, origin).toString();
+}
+
 export function addHomepageDiscoveryHeaders(
   requestUrl: URL,
   headers: Headers

@@ -62,6 +62,43 @@ export const GET: APIRoute = () => {
           },
         },
       },
+      "/.well-known/oauth-protected-resource": {
+        get: {
+          summary: "OAuth 2.0 Protected Resource Metadata",
+          operationId: "oauthProtectedResource",
+          externalDocs: {
+            url: "https://www.rfc-editor.org/rfc/rfc9728",
+          },
+          responses: {
+            "200": {
+              description: "OAuth 2.0 protected resource metadata",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    required: [
+                      "resource",
+                      "authorization_servers",
+                      "scopes_supported",
+                    ],
+                    properties: {
+                      resource: { type: "string" },
+                      authorization_servers: {
+                        type: "array",
+                        items: { type: "string" },
+                      },
+                      scopes_supported: {
+                        type: "array",
+                        items: { type: "string" },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       "/.well-known/openid-configuration": {
         get: {
           summary: "OpenID Connect Discovery Metadata",

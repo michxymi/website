@@ -9,6 +9,8 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 // https://astro.build/config
 export default defineConfig({
+  output: "server",
+
   vite: {
     plugins: [
       tailwindcss(),

@@ -14,10 +14,21 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const response = await next();
     const headers = new Headers(response.headers);
     addHomepageDiscoveryHeaders(context.url, headers);
+    addVaryHeader(headers, "Accept");
 
     const contentType = response.headers.get("content-type") ?? "";
     if (!contentType.includes("text/html")) {
       return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
+    }
+
+    if (context.request.method === "HEAD") {
+      headers.set("Content-Type", "text/markdown; charset=utf-8");
+      headers.delete("Content-Length");
+      return new Response(null, {
         status: response.status,
         statusText: response.statusText,
         headers,
@@ -29,7 +40,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
     headers.set("Content-Type", "text/markdown; charset=utf-8");
     headers.set("x-markdown-tokens", estimateMarkdownTokens(markdown));
     headers.delete("Content-Length");
-    addVaryHeader(headers, "Accept");
 
     return new Response(markdown, {
       status: response.status,
@@ -39,8 +49,19 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   const response = await next();
-  addHomepageDiscoveryHeaders(context.url, response.headers);
-  return response;
+  const headers = new Headers(response.headers);
+  addHomepageDiscoveryHeaders(context.url, headers);
+
+  const contentType = response.headers.get("content-type") ?? "";
+  if (contentType.includes("text/html")) {
+    addVaryHeader(headers, "Accept");
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 });
 
 function acceptsMarkdown(accept: string): boolean {

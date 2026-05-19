@@ -1,5 +1,4 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import BackLink from "@/components/back-link.astro";
 import PageHeader from "@/components/page-header.astro";
@@ -8,20 +7,14 @@ import Prose from "@/components/starwind/prose";
 import TagList from "@/components/tag-list.astro";
 import RootLayout from "@/layouts/root.astro";
 
-interface Props {
-  project: CollectionEntry<"projects">;
+const project = (await getCollection("projects")).find(
+  (entry) => entry.id === Astro.params.slug
+);
+
+if (!project) {
+  return Astro.rewrite("/404");
 }
 
-export async function getStaticPaths() {
-  const projects = await getCollection("projects");
-
-  return projects.map((project) => ({
-    params: { slug: project.id },
-    props: { project },
-  }));
-}
-
-const { project } = Astro.props as Props;
 const { Content } = await render(project);
 const { data } = project;
 ---

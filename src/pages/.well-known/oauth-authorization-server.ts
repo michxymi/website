@@ -1,13 +1,9 @@
 import type { APIRoute } from "astro";
 
-const TRAILING_SLASH_RE = /\/$/;
+export const prerender = false;
 
-export const GET: APIRoute = ({ site }) => {
-  const baseUrl = (site?.href ?? "https://michxymi.com").replace(
-    TRAILING_SLASH_RE,
-    ""
-  );
-
+export const GET: APIRoute = ({ url }) => {
+  const baseUrl = url.origin;
   const metadata = {
     issuer: baseUrl,
     authorization_endpoint: `${baseUrl}/auth/authorize`,

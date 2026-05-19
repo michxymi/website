@@ -4,7 +4,7 @@ This site supports content negotiation for AI agents via the `Accept: text/markd
 
 ## Implementation
 
-A middleware at `src/middleware.ts` intercepts requests with `Accept: text/markdown`, renders the normal HTML page, and converts it to markdown using the Turndown library. Non-HTML responses pass through unchanged.
+A middleware at `src/middleware.ts` intercepts requests with `Accept: text/markdown`, renders the normal HTML page, and converts it to markdown using the local converter in `src/lib/markdown.ts`. Non-HTML responses pass through unchanged.
 
 ## Reference
 
