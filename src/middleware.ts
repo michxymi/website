@@ -112,11 +112,6 @@ function negotiatePageMediaType(accept: string): PageMediaType | null {
       return qDelta;
     }
 
-    const specificityDelta = b.quality.specificity - a.quality.specificity;
-    if (specificityDelta !== 0) {
-      return specificityDelta;
-    }
-
     return a.quality.index - b.quality.index;
   });
 
