@@ -1,0 +1,5 @@
+/
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/vnd.oai.openapi+json", </api/health>; rel="status"; type="application/health+json", </feed.xml>; rel="alternate"; type="application/rss+xml", </blog>; rel="collection"
+
+/index.html
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/vnd.oai.openapi+json", </api/health>; rel="status"; type="application/health+json", </feed.xml>; rel="alternate"; type="application/rss+xml", </blog>; rel="collection"
