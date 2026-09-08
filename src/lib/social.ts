@@ -11,21 +11,21 @@ export interface SocialLink {
 
 export const SOCIAL_LINKS = [
   {
+    description: "@michxymi",
+    icon: GithubIcon,
     name: "Github",
     url: "https://github.com/michxymi",
-    icon: GithubIcon,
-    description: "@michxymi",
   },
   {
+    description: "@michxymi",
+    icon: XIcon,
     name: "X",
     url: "https://x.com/michxymi",
-    icon: XIcon,
-    description: "@michxymi",
   },
   {
+    description: "in/mxymitoulias",
+    icon: LinkedInIcon,
     name: "LinkedIn",
     url: "https://www.linkedin.com/in/mxymitoulias/",
-    icon: LinkedInIcon,
-    description: "in/mxymitoulias",
   },
 ] as const satisfies readonly SocialLink[];

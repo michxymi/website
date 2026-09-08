@@ -18,16 +18,16 @@ const metaDescription =
 ---
 
 <RootLayout
-  pageTitle="Contact"
-  pageDescription={metaDescription}
   canonical="/contact"
+  pageDescription={metaDescription}
+  pageTitle="Contact"
 >
   <PageHeader description={description} title="Contact" />
 
   <div class="grid gap-6 md:grid-cols-2">
     <ContactForm />
 
-    <Card size="sm" class="bg-transparent">
+    <Card class="bg-transparent" size="sm">
       <CardHeader>
         <CardTitle class="font-display text-lg">Connect</CardTitle>
         <CardDescription class="line-clamp-2">

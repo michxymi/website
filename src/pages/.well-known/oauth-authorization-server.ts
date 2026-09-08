@@ -5,32 +5,32 @@ export const prerender = false;
 export const GET: APIRoute = ({ url }) => {
   const baseUrl = url.origin;
   const metadata = {
-    issuer: baseUrl,
     authorization_endpoint: `${baseUrl}/auth/authorize`,
-    token_endpoint: `${baseUrl}/auth/token`,
-    jwks_uri: `${baseUrl}/auth/jwks`,
-    registration_endpoint: `${baseUrl}/auth/register`,
+    claims_supported: ["sub", "name", "email", "picture"],
+    code_challenge_methods_supported: ["S256"],
     grant_types_supported: ["authorization_code", "client_credentials"],
+    issuer: baseUrl,
+    jwks_uri: `${baseUrl}/auth/jwks`,
+    op_policy_uri: `${baseUrl}/.well-known/oauth-authorization-server`,
+    op_tos_uri: `${baseUrl}`,
+    registration_endpoint: `${baseUrl}/auth/register`,
     response_types_supported: ["code"],
+    scopes_supported: ["openid", "profile", "email", "api:read"],
+    service_documentation: `${baseUrl}/docs`,
     subject_types_supported: ["public"],
+    token_endpoint: `${baseUrl}/auth/token`,
     token_endpoint_auth_methods_supported: [
       "client_secret_basic",
       "client_secret_post",
       "none",
     ],
-    code_challenge_methods_supported: ["S256"],
-    scopes_supported: ["openid", "profile", "email", "api:read"],
-    claims_supported: ["sub", "name", "email", "picture"],
-    service_documentation: `${baseUrl}/docs`,
     ui_locales_supported: ["en"],
-    op_policy_uri: `${baseUrl}/.well-known/oauth-authorization-server`,
-    op_tos_uri: `${baseUrl}`,
   };
 
   return new Response(JSON.stringify(metadata, null, 2), {
-    status: 200,
     headers: {
       "Content-Type": "application/json",
     },
+    status: 200,
   });
 };

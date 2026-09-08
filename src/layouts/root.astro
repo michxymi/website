@@ -39,29 +39,29 @@ const currentYear = new Date().getFullYear();
 
 const SITE_NAVIGATION = [
   {
+    icon: UserIcon,
     title: "About",
     url: "/",
-    icon: UserIcon,
   },
   {
+    icon: ActivityHeartbeat,
     title: "Now",
     url: "/now",
-    icon: ActivityHeartbeat,
   },
   {
+    icon: FolderIcon,
     title: "Projects",
     url: "/projects",
-    icon: FolderIcon,
   },
   {
+    icon: BookOpenIcon,
     title: "Blog",
     url: "/blog",
-    icon: BookOpenIcon,
   },
   {
+    icon: MailIcon,
     title: "Contact",
     url: "/contact",
-    icon: MailIcon,
   },
 ] as const;
 
@@ -89,10 +89,11 @@ const {
 
 const WEBMCP_DATA = JSON.stringify({
   author: {
-    name: SEO_CONFIG.author.name,
     jobTitle: SEO_CONFIG.author.jobTitle,
+    name: SEO_CONFIG.author.name,
     worksFor: SEO_CONFIG.author.worksFor,
   },
+  cvUrl: "/Michael_Xymitoulias_CV.pdf",
   navigation: SITE_NAVIGATION.map((item) => ({
     title: item.title,
     url: item.url,
@@ -101,7 +102,6 @@ const WEBMCP_DATA = JSON.stringify({
     name: item.name,
     url: item.url,
   })),
-  cvUrl: "/Michael_Xymitoulias_CV.pdf",
 });
 ---
 
@@ -139,7 +139,7 @@ const WEBMCP_DATA = JSON.stringify({
               <Avatar
                 class="size-12 shrink-0 rounded-full group-data-[collapsible=icon]:size-8"
               >
-                <AvatarImage src="/avatar.webp" alt="michxymi" />
+                <AvatarImage alt="michxymi" src="/avatar.webp" />
                 <AvatarFallback class="rounded-full">MX</AvatarFallback>
               </Avatar>
               <div
@@ -213,8 +213,8 @@ const WEBMCP_DATA = JSON.stringify({
           <SidebarMenuItem>
             <SidebarMenuButton
               download
-              tooltip="Download CV"
               href="/Michael_Xymitoulias_CV.pdf"
+              tooltip="Download CV"
             >
               <DownloadIcon />
               <span> Download CV </span>
@@ -229,10 +229,10 @@ const WEBMCP_DATA = JSON.stringify({
       <header class="flex h-12 shrink-0 items-center justify-end gap-2 px-4">
         <div class="inline-flex items-center gap-3">
           <SidebarTrigger
-            size="sm"
             class="text-muted-foreground hover:bg-transparent hover:text-foreground [&_svg]:size-4"
+            size="sm"
           />
-          <Separator orientation="vertical" class="h-4" />
+          <Separator class="h-4" orientation="vertical" />
           <ThemeSwitcher />
         </div>
       </header>

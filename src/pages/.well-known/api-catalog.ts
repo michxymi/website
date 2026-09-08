@@ -4,7 +4,7 @@ import { absoluteUrl } from "@/lib/agent-discovery";
 export const prerender = false;
 
 export const GET: APIRoute = ({ url }) => {
-  const origin = url.origin;
+  const { origin } = url;
   const catalog = {
     linkset: [
       {
@@ -13,12 +13,6 @@ export const GET: APIRoute = ({ url }) => {
           {
             href: absoluteUrl("/openapi.json", origin),
             type: "application/vnd.oai.openapi+json",
-          },
-        ],
-        status: [
-          {
-            href: absoluteUrl("/api/health", origin),
-            type: "application/health+json",
           },
         ],
         "service-doc": [
@@ -31,6 +25,12 @@ export const GET: APIRoute = ({ url }) => {
           {
             href: absoluteUrl("/.well-known/oauth-protected-resource", origin),
             type: "application/json",
+          },
+        ],
+        status: [
+          {
+            href: absoluteUrl("/api/health", origin),
+            type: "application/health+json",
           },
         ],
       },

@@ -10,9 +10,9 @@ export function htmlToMarkdown(html: string): string {
   text = text.replace(/<script[\s\S]*?<\/script>/gi, "");
   text = text.replace(/<style[\s\S]*?<\/style>/gi, "");
 
-  const main = text.match(MAIN_RE);
-  if (main?.[1]) {
-    text = main[1];
+  const [, mainContent] = text.match(MAIN_RE) ?? [];
+  if (mainContent) {
+    text = mainContent;
   }
 
   text = text.replace(/<nav[\s\S]*?<\/nav>/gi, "");

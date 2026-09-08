@@ -1,13 +1,13 @@
 const shortPostDateFormatter = new Intl.DateTimeFormat("en-GB", {
-  year: "numeric",
-  month: "short",
   day: "numeric",
+  month: "short",
+  year: "numeric",
 });
 
 const longPostDateFormatter = new Intl.DateTimeFormat("en-GB", {
-  year: "numeric",
-  month: "long",
   day: "numeric",
+  month: "long",
+  year: "numeric",
 });
 
 const monthYearFormatter = new Intl.DateTimeFormat("en-GB", {

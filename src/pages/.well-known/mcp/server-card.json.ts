@@ -9,24 +9,6 @@ export const GET: APIRoute = ({ site }) => {
   );
 
   const serverCard = {
-    $schema:
-      "https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json",
-    name: "com.michxymi/website",
-    version: "0.0.1",
-    description: "Personal website of Michael Xymitoulias",
-    title: "MichXymi Website",
-    websiteUrl: baseUrl,
-    repository: {
-      url: "https://github.com/michxymi/website",
-      source: "github",
-    },
-    remotes: [
-      {
-        type: "streamable-http",
-        url: baseUrl,
-        supportedProtocolVersions: ["2025-03-12"],
-      },
-    ],
     _meta: {
       "com.michxymi": {
         contact: {
@@ -34,16 +16,34 @@ export const GET: APIRoute = ({ site }) => {
         },
       },
     },
+    $schema:
+      "https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json",
+    description: "Personal website of Michael Xymitoulias",
+    name: "com.michxymi/website",
+    remotes: [
+      {
+        supportedProtocolVersions: ["2025-03-12"],
+        type: "streamable-http",
+        url: baseUrl,
+      },
+    ],
+    repository: {
+      source: "github",
+      url: "https://github.com/michxymi/website",
+    },
+    title: "MichXymi Website",
+    version: "0.0.1",
+    websiteUrl: baseUrl,
   };
 
   return new Response(JSON.stringify(serverCard, null, 2), {
-    status: 200,
     headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET",
       "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET",
+      "Access-Control-Allow-Origin": "*",
       "Cache-Control": "public, max-age=3600",
+      "Content-Type": "application/json",
     },
+    status: 200,
   });
 };

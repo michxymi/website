@@ -6,16 +6,16 @@ export async function GET(context) {
   const posts = await getPublishedPosts();
 
   return rss({
-    title: `${SEO_CONFIG.name} Blog`,
-    description: SEO_CONFIG.description,
-    site: context.site,
-    trailingSlash: false,
     customData: `<language>${SEO_CONFIG.locale.replace("_", "-")}</language>`,
+    description: SEO_CONFIG.description,
     items: posts.map((post) => ({
-      title: post.data.title,
       description: post.data.description,
-      pubDate: post.data.publishedAt,
       link: `/blog/${post.id}`,
+      pubDate: post.data.publishedAt,
+      title: post.data.title,
     })),
+    site: context.site,
+    title: `${SEO_CONFIG.name} Blog`,
+    trailingSlash: false,
   });
 }

@@ -12,7 +12,7 @@ import Label from "@/components/starwind/label";
 import TextArea from "@/components/starwind/textarea";
 ---
 
-<Card size="sm" class="bg-transparent">
+<Card class="bg-transparent" size="sm">
   <CardHeader>
     <CardTitle class="font-display text-lg">Send a Message</CardTitle>
     <CardDescription class="line-clamp-2">
@@ -103,9 +103,9 @@ import TextArea from "@/components/starwind/textarea";
 
     try {
       const response = await fetch(contactForm.action, {
-        method: contactForm.method,
         body: new FormData(contactForm),
         headers: { Accept: "application/json" },
+        method: contactForm.method,
       });
 
       if (response.ok) {

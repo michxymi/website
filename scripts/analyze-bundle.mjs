@@ -33,7 +33,7 @@ function collectUids(node) {
   return uids;
 }
 
-const nodeParts = data.nodeParts;
+const { nodeParts } = data;
 const ASTRO_PREFIX = /^_astro\//;
 
 const chunks = data.tree.children.map((chunk) => {
@@ -50,7 +50,7 @@ const chunks = data.tree.children.map((chunk) => {
     }
   }
   const label = chunk.name.replace(ASTRO_PREFIX, "");
-  return { label, rendered, gzip, brotli };
+  return { brotli, gzip, label, rendered };
 });
 
 chunks.sort((a, b) => b.rendered - a.rendered);
@@ -118,7 +118,7 @@ for (const meta of Object.values(data.nodeMetas)) {
       .replace(root, "")
       .replace(NPM_PREFIX, "npm:")
       .replace(ROOT_PREFIX, "");
-    modules.push({ label, rendered, gzip, brotli });
+    modules.push({ brotli, gzip, label, rendered });
   }
 }
 
@@ -126,8 +126,7 @@ modules.sort((a, b) => b.rendered - a.rendered);
 const top = modules.slice(0, 10);
 
 console.log("\n\nLargest modules (rendered):\n");
-for (let i = 0; i < top.length; i++) {
-  const m = top[i];
+for (const [i, m] of top.entries()) {
   console.log(
     `  ${(i + 1).toString().padStart(2)}.`,
     m.label.padEnd(70),

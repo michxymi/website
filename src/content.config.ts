@@ -3,53 +3,53 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 const pages = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
+  loader: glob({ base: "./src/content/pages", pattern: "**/*.md" }),
   schema: z.object({
-    title: z.string(),
     description: z.string().optional(),
+    title: z.string(),
     updatedAt: z.coerce.date().optional(),
   }),
 });
 
 const posts = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
+  loader: glob({ base: "./src/content/posts", pattern: "**/*.md" }),
   schema: z.object({
-    title: z.string().min(1).max(100),
+    coverImage: z.string().optional(),
     description: z.string().min(1).max(200),
-    publishedAt: z.coerce.date(),
-    updatedAt: z.coerce.date().optional(),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
+    publishedAt: z.coerce.date(),
     tags: z.array(z.string()).default([]),
-    coverImage: z.string().optional(),
+    title: z.string().min(1).max(100),
+    updatedAt: z.coerce.date().optional(),
   }),
 });
 
 const experiences = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/experiences" }),
+  loader: glob({ base: "./src/content/experiences", pattern: "**/*.md" }),
   schema: z.object({
     companyId: z.string(),
-    companyName: z.string(),
     companyLogo: z.string().optional(),
-    isCurrentEmployer: z.boolean().default(false),
-    title: z.string(),
-    startDate: z.coerce.date(),
-    endDate: z.coerce.date().optional(),
+    companyName: z.string(),
     employmentType: z.string().optional(),
+    endDate: z.coerce.date().optional(),
     icon: z.enum(["code", "design", "business", "education"]).default("code"),
+    isCurrentEmployer: z.boolean().default(false),
     isExpanded: z.boolean().default(false),
+    startDate: z.coerce.date(),
+    title: z.string(),
   }),
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
+  loader: glob({ base: "./src/content/projects", pattern: "**/*.md" }),
   schema: z.object({
-    title: z.string().min(1).max(80),
+    coverImage: z.string().optional(),
     description: z.string().min(1).max(300),
-    technologies: z.array(z.string()).default([]),
     liveUrl: z.url().optional(),
     repoUrl: z.url().optional(),
-    coverImage: z.string().optional(),
+    technologies: z.array(z.string()).default([]),
+    title: z.string().min(1).max(80),
   }),
 });
 

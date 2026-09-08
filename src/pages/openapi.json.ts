@@ -2,210 +2,210 @@ import type { APIRoute } from "astro";
 
 export const GET: APIRoute = () => {
   const spec = {
-    openapi: "3.1.0",
     info: {
+      description: "Personal website of Michael Xymitoulias",
       title: "michxymi.com API",
       version: "1.0.0",
-      description: "Personal website of Michael Xymitoulias",
     },
-    servers: [{ url: "https://michxymi.com" }],
+    openapi: "3.1.0",
     paths: {
-      "/api/health": {
+      "/.well-known/api-catalog": {
         get: {
-          summary: "Health check",
-          operationId: "healthCheck",
+          operationId: "getApiCatalog",
           responses: {
             "200": {
-              description: "OK",
               content: {
-                "application/health+json": {
+                "application/linkset+json": {
                   schema: {
-                    type: "object",
                     properties: {
-                      status: { type: "string", example: "ok" },
+                      linkset: { type: "array" },
                     },
+                    type: "object",
                   },
                 },
               },
+              description: "API catalog in linkset format",
             },
           },
+          summary: "API Catalog",
+        },
+      },
+      "/.well-known/mcp/server-card.json": {
+        get: {
+          externalDocs: {
+            url: "https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127",
+          },
+          operationId: "getMcpServerCard",
+          responses: {
+            "200": {
+              content: {
+                "application/json": {
+                  schema: {
+                    properties: {
+                      $schema: { type: "string" },
+                      description: { type: "string" },
+                      name: { type: "string" },
+                      remotes: { type: "array" },
+                      repository: { type: "object" },
+                      title: { type: "string" },
+                      version: { type: "string" },
+                      websiteUrl: { type: "string" },
+                    },
+                    type: "object",
+                  },
+                },
+              },
+              description: "MCP Server Card for agent discovery",
+            },
+          },
+          summary: "MCP Server Card",
         },
       },
       "/.well-known/oauth-authorization-server": {
         get: {
-          summary: "OAuth 2.0 Authorization Server Metadata",
-          operationId: "oauthAuthorizationServer",
           externalDocs: {
             url: "https://www.rfc-editor.org/rfc/rfc8414",
           },
+          operationId: "oauthAuthorizationServer",
           responses: {
             "200": {
-              description: "OAuth 2.0 Authorization Server metadata",
               content: {
                 "application/json": {
                   schema: {
-                    type: "object",
                     properties: {
-                      issuer: { type: "string" },
                       authorization_endpoint: { type: "string" },
-                      token_endpoint: { type: "string" },
-                      jwks_uri: { type: "string" },
                       grant_types_supported: {
-                        type: "array",
                         items: { type: "string" },
+                        type: "array",
                       },
+                      issuer: { type: "string" },
+                      jwks_uri: { type: "string" },
+                      token_endpoint: { type: "string" },
                     },
+                    type: "object",
                   },
                 },
               },
+              description: "OAuth 2.0 Authorization Server metadata",
             },
           },
+          summary: "OAuth 2.0 Authorization Server Metadata",
         },
       },
       "/.well-known/oauth-protected-resource": {
         get: {
-          summary: "OAuth 2.0 Protected Resource Metadata",
-          operationId: "oauthProtectedResource",
           externalDocs: {
             url: "https://www.rfc-editor.org/rfc/rfc9728",
           },
+          operationId: "oauthProtectedResource",
           responses: {
             "200": {
-              description: "OAuth 2.0 protected resource metadata",
               content: {
                 "application/json": {
                   schema: {
-                    type: "object",
+                    properties: {
+                      authorization_servers: {
+                        items: { type: "string" },
+                        type: "array",
+                      },
+                      resource: { type: "string" },
+                      scopes_supported: {
+                        items: { type: "string" },
+                        type: "array",
+                      },
+                    },
                     required: [
                       "resource",
                       "authorization_servers",
                       "scopes_supported",
                     ],
-                    properties: {
-                      resource: { type: "string" },
-                      authorization_servers: {
-                        type: "array",
-                        items: { type: "string" },
-                      },
-                      scopes_supported: {
-                        type: "array",
-                        items: { type: "string" },
-                      },
-                    },
+                    type: "object",
                   },
                 },
               },
+              description: "OAuth 2.0 protected resource metadata",
             },
           },
+          summary: "OAuth 2.0 Protected Resource Metadata",
         },
       },
       "/.well-known/openid-configuration": {
         get: {
-          summary: "OpenID Connect Discovery Metadata",
-          operationId: "openidConfiguration",
           externalDocs: {
             url: "http://openid.net/specs/openid-connect-discovery-1_0.html",
           },
+          operationId: "openidConfiguration",
           responses: {
             "200": {
-              description: "OpenID Connect discovery metadata",
               content: {
                 "application/json": {
                   schema: {
-                    type: "object",
                     properties: {
-                      issuer: { type: "string" },
                       authorization_endpoint: { type: "string" },
-                      token_endpoint: { type: "string" },
-                      userinfo_endpoint: { type: "string" },
-                      jwks_uri: { type: "string" },
-                      scopes_supported: {
-                        type: "array",
-                        items: { type: "string" },
-                      },
-                      response_types_supported: {
-                        type: "array",
-                        items: { type: "string" },
-                      },
                       grant_types_supported: {
-                        type: "array",
                         items: { type: "string" },
-                      },
-                      subject_types_supported: {
                         type: "array",
-                        items: { type: "string" },
                       },
                       id_token_signing_alg_values_supported: {
-                        type: "array",
                         items: { type: "string" },
+                        type: "array",
                       },
+                      issuer: { type: "string" },
+                      jwks_uri: { type: "string" },
+                      response_types_supported: {
+                        items: { type: "string" },
+                        type: "array",
+                      },
+                      scopes_supported: {
+                        items: { type: "string" },
+                        type: "array",
+                      },
+                      subject_types_supported: {
+                        items: { type: "string" },
+                        type: "array",
+                      },
+                      token_endpoint: { type: "string" },
+                      userinfo_endpoint: { type: "string" },
                     },
+                    type: "object",
                   },
                 },
               },
+              description: "OpenID Connect discovery metadata",
             },
           },
+          summary: "OpenID Connect Discovery Metadata",
         },
       },
-      "/.well-known/api-catalog": {
+      "/api/health": {
         get: {
-          summary: "API Catalog",
-          operationId: "getApiCatalog",
+          operationId: "healthCheck",
           responses: {
             "200": {
-              description: "API catalog in linkset format",
               content: {
-                "application/linkset+json": {
+                "application/health+json": {
                   schema: {
-                    type: "object",
                     properties: {
-                      linkset: { type: "array" },
+                      status: { example: "ok", type: "string" },
                     },
+                    type: "object",
                   },
                 },
               },
+              description: "OK",
             },
           },
-        },
-      },
-      "/.well-known/mcp/server-card.json": {
-        get: {
-          summary: "MCP Server Card",
-          operationId: "getMcpServerCard",
-          externalDocs: {
-            url: "https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127",
-          },
-          responses: {
-            "200": {
-              description: "MCP Server Card for agent discovery",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      $schema: { type: "string" },
-                      name: { type: "string" },
-                      version: { type: "string" },
-                      description: { type: "string" },
-                      title: { type: "string" },
-                      websiteUrl: { type: "string" },
-                      repository: { type: "object" },
-                      remotes: { type: "array" },
-                    },
-                  },
-                },
-              },
-            },
-          },
+          summary: "Health check",
         },
       },
     },
+    servers: [{ url: "https://michxymi.com" }],
   };
 
   return new Response(JSON.stringify(spec, null, 2), {
-    status: 200,
     headers: {
       "Content-Type": "application/vnd.oai.openapi+json",
     },
+    status: 200,
   });
 };

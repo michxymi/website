@@ -12,14 +12,14 @@ const { class: className } = Astro.props as Props;
 ---
 
 <Toggle
+  aria-label="Toggle theme"
+  data-theme-toggle
   size="sm"
   class:list={[
     "group text-muted-foreground hover:bg-transparent hover:text-foreground",
     "data-[state=on]:bg-transparent data-[state=on]:text-muted-foreground data-[state=on]:hover:bg-transparent data-[state=on]:hover:text-foreground",
     className,
   ]}
-  aria-label="Toggle theme"
-  data-theme-toggle
 >
   <span class="size-4" data-theme-icon-wrapper>
     <Sun

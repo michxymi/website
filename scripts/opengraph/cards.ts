@@ -14,14 +14,15 @@ function h(
 ): VNode {
   const flat = children.flat(10);
   const cs = flat.filter(
-    (c): c is VNode | string | number => c != null && c !== false
+    (c): c is VNode | string | number =>
+      c !== null && c !== undefined && c !== false
   );
   return {
-    type,
     props: {
       ...(props ?? {}),
       ...(cs.length > 0 ? { children: cs.length === 1 ? cs[0] : cs } : {}),
     },
+    type,
   };
 }
 
@@ -51,60 +52,60 @@ function truncate(text: string, max: number): string {
 
 const labelStyle: Style = {
   color: MUTED,
-  fontSize: 20,
   fontFamily: "JetBrains Mono",
+  fontSize: 20,
   fontWeight: 500,
   letterSpacing: "0.15em",
 } as const;
 
 const footerStyle: Style = {
   color: SUBTLE,
-  fontSize: 18,
   fontFamily: "JetBrains Mono",
+  fontSize: 18,
 } as const;
 
 const outerStyle: Style = {
+  background: BG,
   display: "flex",
   flexDirection: "column",
-  width: 1200,
   height: 630,
-  background: BG,
   padding: 64,
+  width: 1200,
 } as const;
 
 const centerStyle: Style = {
   display: "flex",
-  flexDirection: "column",
   flex: 1,
-  justifyContent: "center",
+  flexDirection: "column",
   gap: 24,
+  justifyContent: "center",
 } as const;
 
 const metaStyle: Style = {
-  display: "flex",
-  gap: 8,
   color: SUBTLE,
-  fontSize: 14,
+  display: "flex",
   fontFamily: "JetBrains Mono",
+  fontSize: 14,
+  gap: 8,
 } as const;
 
 const hrStyle: Style = {
-  height: 1,
   background: BORDER,
+  height: 1,
   width: "100%",
 } as const;
 
 const titleStyle: Style = {
   color: FG,
+  fontFamily: "IBM Plex Sans",
   fontWeight: 600,
   lineHeight: 1.1,
-  fontFamily: "IBM Plex Sans",
 } as const;
 
 const subtitleStyle: Style = {
   color: MUTED,
-  lineHeight: 1.4,
   fontFamily: "IBM Plex Sans",
+  lineHeight: 1.4,
 } as const;
 
 function FlexRow(style: Style | null, ...children: Children[]): VNode {
@@ -136,7 +137,7 @@ export function DefaultCard(): VNode {
       )
     ),
     FlexCol(
-      { marginTop: 32, gap: 24 },
+      { gap: 24, marginTop: 32 },
       div(hrStyle),
       FlexRow(
         { alignItems: "center", justifyContent: "flex-end" },
@@ -164,7 +165,7 @@ export function PostCard(post: CardProps): VNode {
         : null
     ),
     FlexCol(
-      { marginTop: 32, gap: 24 },
+      { gap: 24, marginTop: 32 },
       div(hrStyle),
       FlexRow(
         { alignItems: "center", justifyContent: "space-between" },
@@ -190,7 +191,7 @@ export function ProjectCard(project: CardProps): VNode {
       subtitle ? div({ ...subtitleStyle, fontSize: 24 }, subtitle) : null
     ),
     FlexCol(
-      { marginTop: 32, gap: 24 },
+      { gap: 24, marginTop: 32 },
       div(hrStyle),
       FlexRow(
         { alignItems: "center", justifyContent: "flex-end" },

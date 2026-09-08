@@ -37,11 +37,11 @@ if (!githubLink) {
 }
 ---
 
-<RootLayout pageTitle="Now" pageDescription={metaDescription} canonical="/now">
+<RootLayout canonical="/now" pageDescription={metaDescription} pageTitle="Now">
   <PageHeader description={description} title="Now" />
 
   <div class="space-y-12">
-    <Card size="sm" class="bg-transparent">
+    <Card class="bg-transparent" size="sm">
       <CardHeader>
         <SectionKicker>Uses</SectionKicker>
       </CardHeader>
@@ -57,7 +57,7 @@ if (!githubLink) {
       </CardContent>
     </Card>
 
-    <Card size="sm" class="bg-transparent">
+    <Card class="bg-transparent" size="sm">
       <CardHeader>
         <SectionKicker>GitHub Activity</SectionKicker>
         <CardAction>

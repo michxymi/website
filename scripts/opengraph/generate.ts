@@ -38,16 +38,48 @@ interface ProjectData {
 
 type Fonts = ReturnType<typeof getFonts>;
 
+interface GenerationResult {
+  error?: unknown;
+  slug: string;
+  status: "generated" | "skipped" | "failed";
+}
+
 function formatDate(date: Date): string {
   return date.toLocaleDateString("en-US", {
-    month: "short",
     day: "numeric",
+    month: "short",
     year: "numeric",
   });
 }
 
 function stripExt(file: string): string {
   return file.replace(MD_EXT, "");
+}
+
+function readString(value: unknown, fallback: string): string {
+  return typeof value === "string" ? value : fallback;
+}
+
+function readStringArray(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
+}
+
+function summarizeResults(results: GenerationResult[]): [number, number] {
+  for (const result of results) {
+    if (result.status === "failed") {
+      console.error(`  ${result.slug}.png — failed:`, result.error);
+    } else {
+      const message = result.status === "skipped" ? "skipped (exists)" : "done";
+      console.log(`  ${result.slug}.png — ${message}`);
+    }
+  }
+
+  return [
+    results.filter(({ status }) => status === "generated").length,
+    results.filter(({ status }) => status === "skipped").length,
+  ];
 }
 
 function readPosts(): PostData[] {
@@ -59,13 +91,13 @@ function readPosts(): PostData[] {
     const raw = readFileSync(join(POSTS_DIR, file), "utf-8");
     const { data } = matter(raw);
     return {
-      slug: stripExt(file),
-      title: (data.title as string) ?? stripExt(file),
       description: data.description as string | undefined,
-      tags: (data.tags as string[]) ?? [],
       publishedAt: data.publishedAt
         ? new Date(data.publishedAt as string)
         : undefined,
+      slug: stripExt(file),
+      tags: readStringArray(data.tags),
+      title: readString(data.title, stripExt(file)),
     };
   });
 }
@@ -79,10 +111,10 @@ function readProjects(): ProjectData[] {
     const raw = readFileSync(join(PROJECTS_DIR, file), "utf-8");
     const { data } = matter(raw);
     return {
-      slug: stripExt(file),
-      title: (data.title as string) ?? stripExt(file),
       description: data.description as string | undefined,
-      technologies: (data.technologies as string[]) ?? [],
+      slug: stripExt(file),
+      technologies: readStringArray(data.technologies),
+      title: readString(data.title, stripExt(file)),
     };
   });
 }
@@ -92,9 +124,9 @@ async function generatePNG(
   fonts: Fonts
 ): Promise<Uint8Array> {
   const svg = await satori(element, {
-    width: WIDTH,
-    height: HEIGHT,
     fonts,
+    height: HEIGHT,
+    width: WIDTH,
   });
 
   const resvg = new Resvg(svg, {
@@ -127,41 +159,38 @@ async function generatePosts(
     return [0, 0];
   }
 
-  let generated = 0;
-  let skipped = 0;
   console.log(`\nPosts: ${posts.length}`);
 
-  for (const post of posts) {
-    const outPath = join(outputDir, `${post.slug}.png`);
-    if (!force && existsSync(outPath)) {
-      console.log(`  ${post.slug}.png — skipped (exists)`);
-      skipped++;
-      continue;
-    }
+  const results = await Promise.all(
+    posts.map(async (post): Promise<GenerationResult> => {
+      const outPath = join(outputDir, `${post.slug}.png`);
+      if (!force && existsSync(outPath)) {
+        return { slug: post.slug, status: "skipped" };
+      }
 
-    try {
-      const dateStr = post.publishedAt
-        ? formatDate(post.publishedAt)
-        : undefined;
-      const png = await generatePNG(
-        PostCard({
-          footerLeft: dateStr,
-          footerTags: post.tags,
-          label: "Blog",
-          subtitle: post.description,
-          title: post.title,
-        }),
-        fonts
-      );
-      writeFileSync(outPath, png);
-      console.log(`  ${post.slug}.png — done`);
-      generated++;
-    } catch (err) {
-      console.error(`  ${post.slug}.png — failed:`, err);
-    }
-  }
+      try {
+        const dateStr = post.publishedAt
+          ? formatDate(post.publishedAt)
+          : undefined;
+        const png = await generatePNG(
+          PostCard({
+            footerLeft: dateStr,
+            footerTags: post.tags,
+            label: "Blog",
+            subtitle: post.description,
+            title: post.title,
+          }),
+          fonts
+        );
+        writeFileSync(outPath, png);
+        return { slug: post.slug, status: "generated" };
+      } catch (error) {
+        return { error, slug: post.slug, status: "failed" };
+      }
+    })
+  );
 
-  return [generated, skipped];
+  return summarizeResults(results);
 }
 
 async function generateProjects(
@@ -174,37 +203,34 @@ async function generateProjects(
     return [0, 0];
   }
 
-  let generated = 0;
-  let skipped = 0;
   console.log(`\nProjects: ${projects.length}`);
 
-  for (const project of projects) {
-    const outPath = join(outputDir, `${project.slug}.png`);
-    if (!force && existsSync(outPath)) {
-      console.log(`  ${project.slug}.png — skipped (exists)`);
-      skipped++;
-      continue;
-    }
+  const results = await Promise.all(
+    projects.map(async (project): Promise<GenerationResult> => {
+      const outPath = join(outputDir, `${project.slug}.png`);
+      if (!force && existsSync(outPath)) {
+        return { slug: project.slug, status: "skipped" };
+      }
 
-    try {
-      const png = await generatePNG(
-        ProjectCard({
-          footerTags: project.technologies,
-          label: "Project",
-          subtitle: project.description,
-          title: project.title,
-        }),
-        fonts
-      );
-      writeFileSync(outPath, png);
-      console.log(`  ${project.slug}.png — done`);
-      generated++;
-    } catch (err) {
-      console.error(`  ${project.slug}.png — failed:`, err);
-    }
-  }
+      try {
+        const png = await generatePNG(
+          ProjectCard({
+            footerTags: project.technologies,
+            label: "Project",
+            subtitle: project.description,
+            title: project.title,
+          }),
+          fonts
+        );
+        writeFileSync(outPath, png);
+        return { slug: project.slug, status: "generated" };
+      } catch (error) {
+        return { error, slug: project.slug, status: "failed" };
+      }
+    })
+  );
 
-  return [generated, skipped];
+  return summarizeResults(results);
 }
 
 async function main() {

@@ -4,18 +4,18 @@ import { SOCIAL_LINKS } from "@/lib/social";
 export type JsonLdData = Record<string, unknown>;
 
 export const SITE_CONFIG = {
-  name: "Michael Xymitoulias",
-  description:
-    "Michael Xymitoulias is a software engineer and engineering manager focused on developer tools, technical leadership, React, TypeScript, and software teams.",
-  url: "https://michxymi.com",
   author: {
+    jobTitle: "Full Stack Software Engineer and Engineering Manager",
     name: "Michael Xymitoulias",
     twitter: "@michxymi",
-    jobTitle: "Full Stack Software Engineer and Engineering Manager",
     worksFor: "Oxford Nanopore Technologies",
   },
+  description:
+    "Michael Xymitoulias is a software engineer and engineering manager focused on developer tools, technical leadership, React, TypeScript, and software teams.",
   locale: "en_GB",
+  name: "Michael Xymitoulias",
   ogImage: "/opengraph-image.png",
+  url: "https://michxymi.com",
 } as const;
 
 const socialProfileUrls = SOCIAL_LINKS.map((link) => link.url);
@@ -38,25 +38,25 @@ export function getBlogPostingStructuredData(
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: data.title,
-    description: data.description,
-    image: [imageUrl],
-    datePublished: data.publishedAt.toISOString(),
-    dateModified: (data.updatedAt ?? data.publishedAt).toISOString(),
     author: {
-      "@type": "Person",
       "@id": `${SEO_CONFIG.url}/#person`,
+      "@type": "Person",
       name: SEO_CONFIG.author.name,
       url: SEO_CONFIG.url,
     },
-    publisher: {
-      "@type": "Person",
-      "@id": `${SEO_CONFIG.url}/#person`,
-      name: SEO_CONFIG.author.name,
-    },
+    dateModified: (data.updatedAt ?? data.publishedAt).toISOString(),
+    datePublished: data.publishedAt.toISOString(),
+    description: data.description,
+    headline: data.title,
+    image: [imageUrl],
     mainEntityOfPage: {
-      "@type": "WebPage",
       "@id": canonicalUrl,
+      "@type": "WebPage",
+    },
+    publisher: {
+      "@id": `${SEO_CONFIG.url}/#person`,
+      "@type": "Person",
+      name: SEO_CONFIG.author.name,
     },
   };
 }

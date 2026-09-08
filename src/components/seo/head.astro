@@ -45,48 +45,48 @@ if (Array.isArray(structuredData)) {
 
 <head>
   <meta charset="utf-8">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="sitemap" href="/sitemap-index.xml">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="generator" content={Astro.generator}>
+  <link href="/favicon.svg" rel="icon" type="image/svg+xml">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/sitemap-index.xml" rel="sitemap">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content={Astro.generator} name="generator">
   <Font
     cssVariable="--font-ibm-plex-sans"
-    preload={[{ weight: 400, style: "normal" }]}
+    preload={[{ style: "normal", weight: 400 }]}
   />
   <Font cssVariable="--font-jetbrains-mono" />
 
   <title>{pageTitle}</title>
-  <meta name="description" content={description}>
-  <meta name="author" content={SEO_CONFIG.author.name}>
-  <meta name="creator" content={SEO_CONFIG.author.name}>
-  <meta name="robots" content={robots}>
+  <meta content={description} name="description">
+  <meta content={SEO_CONFIG.author.name} name="author">
+  <meta content={SEO_CONFIG.author.name} name="creator">
+  <meta content={robots} name="robots">
 
-  <link rel="canonical" href={canonicalUrl}>
+  <link href={canonicalUrl} rel="canonical">
   <link
-    rel="alternate"
-    type="application/rss+xml"
-    title={`${SEO_CONFIG.name} Blog`}
     href={feedUrl}
+    rel="alternate"
+    title={`${SEO_CONFIG.name} Blog`}
+    type="application/rss+xml"
   >
 
-  <meta property="og:type" content={type}>
-  <meta property="og:locale" content={SEO_CONFIG.locale}>
-  <meta property="og:url" content={canonicalUrl}>
-  <meta property="og:site_name" content={SEO_CONFIG.name}>
-  <meta property="og:title" content={pageTitle}>
-  <meta property="og:description" content={description}>
-  <meta property="og:image" content={imageUrl}>
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content={socialImageAlt}>
+  <meta content={type} property="og:type">
+  <meta content={SEO_CONFIG.locale} property="og:locale">
+  <meta content={canonicalUrl} property="og:url">
+  <meta content={SEO_CONFIG.name} property="og:site_name">
+  <meta content={pageTitle} property="og:title">
+  <meta content={description} property="og:description">
+  <meta content={imageUrl} property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content={socialImageAlt} property="og:image:alt">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content={SEO_CONFIG.author.twitter}>
-  <meta name="twitter:creator" content={SEO_CONFIG.author.twitter}>
-  <meta name="twitter:title" content={pageTitle}>
-  <meta name="twitter:description" content={description}>
-  <meta name="twitter:image" content={imageUrl}>
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content={SEO_CONFIG.author.twitter} name="twitter:site">
+  <meta content={SEO_CONFIG.author.twitter} name="twitter:creator">
+  <meta content={pageTitle} name="twitter:title">
+  <meta content={description} name="twitter:description">
+  <meta content={imageUrl} name="twitter:image">
 
   <Person />
   <Website />

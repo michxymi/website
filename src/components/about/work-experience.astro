@@ -57,10 +57,10 @@ const positions = await Promise.all(
         Content,
         data: entry.data,
         period: {
-          start: formatMonthYear(entry.data.startDate),
           end: entry.data.endDate
             ? formatMonthYear(entry.data.endDate)
             : undefined,
+          start: formatMonthYear(entry.data.startDate),
         },
       };
     })
@@ -89,7 +89,7 @@ for (const position of positions) {
 const groupedExperiences = Array.from(experienceGroups.values());
 ---
 
-<div class:list={["bg-background px-4", className]} data-slot="work-experience">
+<div data-slot="work-experience" class:list={["bg-background px-4", className]}>
   {groupedExperiences.map((experience) => (
             <div class="space-y-4 py-4" data-slot="work-experience-item">
                 <div class="not-prose flex items-center gap-3">
@@ -126,7 +126,7 @@ const groupedExperiences = Array.from(experienceGroups.values());
                 <div class="relative space-y-4 before:absolute before:left-3 before:h-full before:w-px before:bg-border">
                     {experience.positions.map((position) => {
                         const ExperienceIcon = iconMap[position.data.icon];
-                        const Content = position.Content;
+                        const { Content } = position;
 
                         return (
                             <details

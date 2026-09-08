@@ -1,4 +1,31 @@
 {
+  "name": "@michxymi/website",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "analyze": "node scripts/analyze-bundle.mjs",
+    "astro": "astro",
+    "build": "pnpm build:og && astro build",
+    "build:og": "node scripts/opengraph/generate.ts",
+    "check": "ultracite check",
+    "deploy": "pnpm build && wrangler deploy --config wrangler.deploy.jsonc",
+    "dev": "astro dev",
+    "fix": "ultracite fix",
+    "generate-types": "wrangler types",
+    "prepare": "lefthook install",
+    "preview": "astro preview",
+    "typecheck": "pnpm typecheck:astro && pnpm typecheck:ts",
+    "typecheck:astro": "astro check",
+    "typecheck:ts": "tsc --noEmit"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "overrides": {
+    "vite": "^7"
+  },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.0",
     "@astrojs/rss": "^4.0.19",
@@ -33,35 +60,8 @@
     "ultracite": "7.11.0",
     "wrangler": "^4.129.0"
   },
-  "name": "@michxymi/website",
-  "scripts": {
-    "analyze": "node scripts/analyze-bundle.mjs",
-    "dev": "astro dev",
-    "build": "pnpm build:og && astro build",
-    "build:og": "node scripts/opengraph/generate.ts",
-    "preview": "astro preview",
-    "deploy": "pnpm build && wrangler deploy --config wrangler.deploy.jsonc",
-    "astro": "astro",
-    "check": "ultracite check",
-    "fix": "ultracite fix",
-    "prepare": "lefthook install",
-    "typecheck": "pnpm typecheck:astro && pnpm typecheck:ts",
-    "typecheck:astro": "astro check",
-    "typecheck:ts": "tsc --noEmit",
-    "generate-types": "wrangler types"
-  },
-  "type": "module",
-  "version": "0.0.1",
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
+  "packageManager": "pnpm@12.3.4",
   "engines": {
     "node": ">=24.11.0"
-  },
-  "packageManager": "pnpm@12.3.4",
-  "overrides": {
-    "vite": "^7"
   }
 }

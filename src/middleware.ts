@@ -35,9 +35,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const contentType = response.headers.get("content-type") ?? "";
     if (!contentType.includes("text/html")) {
       return new Response(response.body, {
+        headers,
         status: response.status,
         statusText: response.statusText,
-        headers,
       });
     }
 
@@ -45,9 +45,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
       headers.set("Content-Type", "text/markdown; charset=utf-8");
       headers.delete("Content-Length");
       return new Response(null, {
+        headers,
         status: response.status,
         statusText: response.statusText,
-        headers,
       });
     }
 
@@ -58,9 +58,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
     headers.delete("Content-Length");
 
     return new Response(markdown, {
+      headers,
       status: response.status,
       statusText: response.statusText,
-      headers,
     });
   }
 
@@ -77,17 +77,17 @@ export const onRequest = defineMiddleware(async (context, next) => {
       headers.delete("Content-Length");
 
       return new Response("Not Acceptable", {
+        headers,
         status: 406,
         statusText: "Not Acceptable",
-        headers,
       });
     }
   }
 
   return new Response(response.body, {
+    headers,
     status: response.status,
     statusText: response.statusText,
-    headers,
   });
 });
 
@@ -132,10 +132,10 @@ function parseAcceptHeader(accept: string): AcceptRange[] {
       }
 
       return {
-        type,
-        subtype,
-        q: parseQuality(params),
         index,
+        q: parseQuality(params),
+        subtype,
+        type,
       };
     })
     .filter((range): range is AcceptRange => range !== null);
@@ -165,14 +165,14 @@ function qualityFor(
   const [type, subtype] = mediaType.split("/");
   const matches = ranges
     .map((range) => ({
+      index: range.index,
       q: range.q,
       specificity: mediaRangeSpecificity(range, type, subtype),
-      index: range.index,
     }))
     .filter((match) => match.specificity >= 0);
 
   if (matches.length === 0) {
-    return { q: 0, specificity: -1, index: Number.MAX_SAFE_INTEGER };
+    return { index: Number.MAX_SAFE_INTEGER, q: 0, specificity: -1 };
   }
 
   matches.sort((a, b) => {

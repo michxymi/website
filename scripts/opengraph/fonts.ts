@@ -24,28 +24,28 @@ export interface FontSource {
 export function getFonts(): FontSource[] {
   return [
     {
-      name: "IBM Plex Sans",
       data: loadFont("ibm-plex-sans", 400),
-      weight: 400,
-      style: "normal",
-    },
-    {
       name: "IBM Plex Sans",
-      data: loadFont("ibm-plex-sans", 600),
-      weight: 600,
       style: "normal",
-    },
-    {
-      name: "JetBrains Mono",
-      data: loadFont("jetbrains-mono", 400),
       weight: 400,
-      style: "normal",
     },
     {
-      name: "JetBrains Mono",
-      data: loadFont("jetbrains-mono", 500),
-      weight: 500,
+      data: loadFont("ibm-plex-sans", 600),
+      name: "IBM Plex Sans",
       style: "normal",
+      weight: 600,
+    },
+    {
+      data: loadFont("jetbrains-mono", 400),
+      name: "JetBrains Mono",
+      style: "normal",
+      weight: 400,
+    },
+    {
+      data: loadFont("jetbrains-mono", 500),
+      name: "JetBrains Mono",
+      style: "normal",
+      weight: 500,
     },
   ];
 }

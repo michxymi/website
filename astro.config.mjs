@@ -9,22 +9,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
-
-  vite: {
-    plugins: [
-      tailwindcss(),
-      visualizer({
-        filename: "bundle-analysis.json",
-        template: "raw-data",
-        gzipSize: true,
-        brotliSize: true,
-      }),
-    ],
-  },
-
-  site: "https://michxymi.com",
-  trailingSlash: "never",
+  adapter: cloudflare(),
 
   build: {
     format: "file",
@@ -32,30 +17,45 @@ export default defineConfig({
 
   fonts: [
     {
-      provider: fontProviders.fontsource(),
-      name: "JetBrains Mono",
       cssVariable: "--font-jetbrains-mono",
-      weights: [400, 500, 600],
-      styles: ["normal"],
       fallbacks: ["monospace"],
+      name: "JetBrains Mono",
+      provider: fontProviders.fontsource(),
+      styles: ["normal"],
+      weights: [400, 500, 600],
     },
     {
-      provider: fontProviders.fontsource(),
-      name: "IBM Plex Sans",
       cssVariable: "--font-ibm-plex-sans",
-      weights: [400, 500, 600],
-      styles: ["normal"],
       fallbacks: ["sans-serif"],
+      name: "IBM Plex Sans",
+      provider: fontProviders.fontsource(),
+      styles: ["normal"],
+      weights: [400, 500, 600],
     },
   ],
 
   integrations: [
     sitemap(),
     expressiveCode({
+      themeCssSelector: (theme) => (theme.type === "dark" ? ".dark" : false),
       themes: ["min-light", "min-dark"],
       useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => (theme.type === "dark" ? ".dark" : false),
     }),
   ],
-  adapter: cloudflare(),
+  output: "server",
+
+  site: "https://michxymi.com",
+  trailingSlash: "never",
+
+  vite: {
+    plugins: [
+      tailwindcss(),
+      visualizer({
+        brotliSize: true,
+        filename: "bundle-analysis.json",
+        gzipSize: true,
+        template: "raw-data",
+      }),
+    ],
+  },
 });

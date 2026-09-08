@@ -51,68 +51,66 @@ function getPageContent(): string {
 
 const tools: WebMCPTool[] = [
   {
-    name: "get_site_info",
+    annotations: { readOnlyHint: true },
     description:
       "Get structured information about the website and its author, Michael Xymitoulias.",
-    inputSchema: { type: "object", properties: {} },
-    annotations: { readOnlyHint: true },
     execute: () => Promise.resolve(getData() ?? { content: getPageContent() }),
+    inputSchema: { properties: {}, type: "object" },
+    name: "get_site_info",
   },
   {
-    name: "get_page_content",
+    annotations: { readOnlyHint: true },
     description:
       "Get the full text content of the current page the agent is viewing.",
-    inputSchema: { type: "object", properties: {} },
-    annotations: { readOnlyHint: true },
     execute: () =>
       Promise.resolve({
-        url: window.location.href,
-        title: document.title,
         content: getPageContent(),
+        title: document.title,
+        url: window.location.href,
       }),
+    inputSchema: { properties: {}, type: "object" },
+    name: "get_page_content",
   },
   {
-    name: "get_navigation",
+    annotations: { readOnlyHint: true },
     description:
       "Get the site navigation structure with available page titles and URLs.",
-    inputSchema: { type: "object", properties: {} },
-    annotations: { readOnlyHint: true },
     execute: () => Promise.resolve({ navigation: getData()?.navigation ?? [] }),
+    inputSchema: { properties: {}, type: "object" },
+    name: "get_navigation",
   },
   {
-    name: "get_social_links",
-    description: "Get Michael Xymitoulias's social media profile links.",
-    inputSchema: { type: "object", properties: {} },
     annotations: { readOnlyHint: true },
+    description: "Get Michael Xymitoulias's social media profile links.",
     execute: () =>
       Promise.resolve({ socialLinks: getData()?.socialLinks ?? [] }),
+    inputSchema: { properties: {}, type: "object" },
+    name: "get_social_links",
   },
   {
-    name: "navigate_to",
     description:
       "Navigate to a page on the website. Available routes: / (about), /now, /blog, /projects, /contact.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        path: {
-          type: "string",
-          description:
-            "The URL path to navigate to (e.g., /blog, /projects, /contact, /now)",
-        },
-      },
-      required: ["path"],
-    },
     execute: (input) => {
       const path = String(input.path ?? "/");
       window.location.href = path;
       return Promise.resolve({ navigated: true, to: path });
     },
+    inputSchema: {
+      properties: {
+        path: {
+          description:
+            "The URL path to navigate to (e.g., /blog, /projects, /contact, /now)",
+          type: "string",
+        },
+      },
+      required: ["path"],
+      type: "object",
+    },
+    name: "navigate_to",
   },
   {
-    name: "get_cv",
-    description: "Get the URL to download Michael Xymitoulias's CV/resume.",
-    inputSchema: { type: "object", properties: {} },
     annotations: { readOnlyHint: true },
+    description: "Get the URL to download Michael Xymitoulias's CV/resume.",
     execute: () => {
       const data = getData();
       if (!data) {
@@ -122,22 +120,13 @@ const tools: WebMCPTool[] = [
         cvUrl: new URL(data.cvUrl, window.location.origin).toString(),
       });
     },
+    inputSchema: { properties: {}, type: "object" },
+    name: "get_cv",
   },
   {
-    name: "search_blog_posts",
+    annotations: { readOnlyHint: true },
     description:
       "Search blog posts by keyword. Fetches the RSS feed and returns matching posts.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        query: {
-          type: "string",
-          description: "Search keyword to find matching blog posts",
-        },
-      },
-      required: ["query"],
-    },
-    annotations: { readOnlyHint: true },
     execute: async (input) => {
       const query = String(input.query ?? "").toLowerCase();
       if (!query) {
@@ -166,12 +155,23 @@ const tools: WebMCPTool[] = [
           title.toLowerCase().includes(query) ||
           summary.toLowerCase().includes(query)
         ) {
-          results.push({ title, link, published, summary });
+          results.push({ link, published, summary, title });
         }
       }
 
       return { query: input.query, results };
     },
+    inputSchema: {
+      properties: {
+        query: {
+          description: "Search keyword to find matching blog posts",
+          type: "string",
+        },
+      },
+      required: ["query"],
+      type: "object",
+    },
+    name: "search_blog_posts",
   },
 ];
 
